@@ -1,8 +1,8 @@
-import { Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { Inscription } from "../models/Inscription"
 
 interface Props {
-    inscriptions: Inscription[]
+    inscriptions?: Inscription[]
     }
 
 
@@ -22,7 +22,7 @@ const InscriptionsTable = ({ inscriptions }: Props) => {
     </Thead>
     <Tbody>
       {
-        inscriptions.map((inscription) => (
+        inscriptions?.map((inscription) => (
           <Tr key={inscription.id}>
             <Td>{inscription.first_name}</Td>
             <Td>{inscription.last_name}</Td>

@@ -11,7 +11,7 @@ const CategorySelector = ({ categories }: Props) => {
     <Menu>
       <MenuButton>
         <Heading as="b" size="sm" whiteSpace="nowrap">
-          Book Category
+          Book Categories
         </Heading>
       </MenuButton>
       <MenuList>
