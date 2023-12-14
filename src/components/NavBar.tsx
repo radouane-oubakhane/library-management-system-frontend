@@ -1,8 +1,9 @@
-import { HStack, Hide, Text, Show } from "@chakra-ui/react";
-import CategorySelector from "./CategorySelector";
+import { HStack, Spacer, Text } from "@chakra-ui/react";
+import useAuthors from "../hooks/useAuthors";
 import useCategories from "../hooks/useCategories";
 import AuthorSelector from "./AuthorSelector";
-import useAuthors from "../hooks/useAuthors";
+import CategorySelector from "./CategorySelector";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 
 const NavBar = () => {
@@ -15,14 +16,14 @@ const NavBar = () => {
 
 
   return (
-    <HStack justifyContent="space-between" padding="10px">
+    <HStack justifyContent="space-between" padding="10px" mX="0px">
       <HStack justifyContent="space-between" spacing={10}>
         <Text>Logo</Text>
         <CategorySelector categories={categories} />
         <AuthorSelector authors={authors} />
-    
-        
       </HStack>
+      <Spacer />
+      <ColorModeSwitch />
     </HStack>
   );
 };

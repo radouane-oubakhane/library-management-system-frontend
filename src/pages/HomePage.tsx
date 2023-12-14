@@ -1,9 +1,11 @@
+import InscriptionsTable from "../components/InscriptionsTable";
 import NavBar from "../components/NavBar";
 
 function HomePage() {
   return (
     <>
       <NavBar />
+      
     </>
   );
 }
