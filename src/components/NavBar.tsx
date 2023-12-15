@@ -16,7 +16,7 @@ const NavBar = () => {
 
 
   return (
-    <HStack justifyContent="space-between" padding="10px" mX="0px">
+    <HStack justifyContent="space-between" padding="20px">
       <HStack justifyContent="space-between" spacing={10}>
         <Text>Logo</Text>
         <CategorySelector categories={categories} />
