@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Category } from "../models/Category";
+import Category from "../models/Category";
 import apiClient from "../services/api-client";
 
 

@@ -1,7 +1,7 @@
 
 
 
-export interface Inscription {
+export default interface Inscription {
     id: number;
     first_name: string;
     last_name: string;

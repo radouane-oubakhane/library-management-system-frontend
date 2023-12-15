@@ -1,5 +1,5 @@
 import { Heading, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
-import { Category } from "../models/Category"
+import Category from "../models/Category"
 
 interface Props {
     categories?: Category[]

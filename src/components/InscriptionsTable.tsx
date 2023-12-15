@@ -1,5 +1,5 @@
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
-import { Inscription } from "../models/Inscription"
+import Inscription from "../models/Inscription"
 
 interface Props {
     inscriptions?: Inscription[]

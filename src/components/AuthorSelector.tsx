@@ -1,6 +1,6 @@
 import { Heading, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 
-import { Author } from "../models/Author"
+import Author from "../models/Author"
 
 
  interface Props {
