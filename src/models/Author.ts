@@ -9,5 +9,6 @@ export default interface Author {
     phone: string
     address: string
     date_of_birth: string
+    biography: string
     picture: string
 }

@@ -1,11 +1,17 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import CardContainer from "./CardContainer";
 import CardSkeleton from "./CardSkeleton";
-import useBooks from "../hooks/useBooks";
 import BookCard from "./BookCard";
+import Book from "../models/Book";
 
-const BookGrid = () => {
-  const { data: books, error, isLoading } = useBooks();
+interface Props {
+  books?: Book[];
+  isLoading: boolean;
+  error: Error | null;
+}
+
+
+const BookGrid = ({ books, isLoading, error }: Props) => {
   const skeletons = Array(12).fill(0);
 
   if (error)
@@ -19,7 +25,7 @@ const BookGrid = () => {
     <SimpleGrid
       columns={{ sm: 2, md: 3, lg: 4, xl: 6 }}
       spacing={10}
-      padding="20px"
+      padding="10px"
     >
       {isLoading &&
         skeletons.map((_, index) => (

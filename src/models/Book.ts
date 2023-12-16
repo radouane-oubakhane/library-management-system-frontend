@@ -5,8 +5,8 @@ import Category from "./Category";
 export default interface Book {
         id: number;
         title: string;
-        author_first_name: string;
-        author_last_name: string;
+        author_first_name?: string;
+        author_last_name?: string;
         category: Category;
         isbn: string;
         description: string;

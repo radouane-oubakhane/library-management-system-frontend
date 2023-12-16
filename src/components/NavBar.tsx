@@ -4,6 +4,7 @@ import useCategories from "../hooks/useCategories";
 import AuthorSelector from "./AuthorSelector";
 import CategorySelector from "./CategorySelector";
 import ColorModeSwitch from "./ColorModeSwitch";
+import { Link } from "react-router-dom";
 
 
 const NavBar = () => {
@@ -18,7 +19,9 @@ const NavBar = () => {
   return (
     <HStack justifyContent="space-between" padding="20px">
       <HStack justifyContent="space-between" spacing={10}>
+        <Link to="/">
         <Text>Logo</Text>
+        </Link>
         <CategorySelector categories={categories} />
         <AuthorSelector authors={authors} />
       </HStack>

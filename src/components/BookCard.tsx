@@ -8,9 +8,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Book from "../models/Book";
+import { Book as AuthorBook } from "../models/author/Book";
+
 
 interface Props {
-  book: Book;
+  book: Book | AuthorBook;
 }
 
 const BookCard = ({ book }: Props) => {
