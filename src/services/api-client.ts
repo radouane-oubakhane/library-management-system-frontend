@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const token = '1|YQd4qPDrQw2eVgD4PPhzGMCGkmoLbXJvXDWpnOB8660919b7';
+const token = '1|u1m2KLs5BNEJCqyoVFdbr4oP4PQmHsRiFhkJNcts98754aa7';
 
 export default axios.create({
     baseURL: 'http://127.0.0.1:8000/api',

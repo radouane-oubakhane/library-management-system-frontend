@@ -7,7 +7,7 @@ export default interface Book {
         title: string;
         author_first_name?: string;
         author_last_name?: string;
-        category: Category;
+        category?: Category;
         isbn: string;
         description: string;
         stock: number;

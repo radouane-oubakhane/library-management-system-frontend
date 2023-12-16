@@ -3,6 +3,7 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import ErrorPage from "./pages/ErrorPage";
 import AuthorDetailPage from "./pages/AuthorDetailPage";
+import CategoryDetailPage from "./pages/CategoryDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,11 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       {
         path: "authors/",
-        children: [{ path: ":id", element: <AuthorDetailPage /> }],
+        children: [{ path: ":authorId", element: <AuthorDetailPage /> }],
+      },
+      {
+        path: "categories/",
+        children: [{ path: ":categoryId", element: <CategoryDetailPage /> }],
       },
     ],
   },

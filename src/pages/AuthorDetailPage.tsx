@@ -17,17 +17,17 @@ import AuthorInfo from "../components/AuthorInfo";
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
 
 const AuthorDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { authorId } = useParams<{ authorId: string }>();
   const {
     data: author,
     isLoading: authorIsLoading,
     error: authorError,
-  } = useAuthor(id!);
+  } = useAuthor(authorId!);
   const {
     data: books,
     isLoading: booksIsLoading,
     error: booksError,
-  } = useAuthorBooks(id!);
+  } = useAuthorBooks(authorId!);
 
   if (authorIsLoading) return <AuthorDetailPageSkeleton />;
 
@@ -60,7 +60,7 @@ const AuthorDetailPage = () => {
               borderRadius={20}
               overflow="hidden"
               blur="0px"
-              src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421577449/vagabond-vol-37-9781421577449_hr.jpg"
+              src="https://bit.ly/dan-abramov"
               alt={`${author?.last_name}, ${author?.first_name} profile picture`}
             />
           </Center>

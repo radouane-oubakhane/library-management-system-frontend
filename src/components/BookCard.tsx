@@ -8,11 +8,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Book from "../models/Book";
-import { Book as AuthorBook } from "../models/author/Book";
 
 
 interface Props {
-  book: Book | AuthorBook;
+  book: Book
 }
 
 const BookCard = ({ book }: Props) => {
@@ -44,7 +43,7 @@ const BookCard = ({ book }: Props) => {
             <Text as="abbr" textAlign="start">
               {book.author_first_name} {book.author_last_name}
             </Text>
-            <Badge variant='solid' colorScheme="purple">{book.category.name}</Badge>
+            <Badge variant='solid' colorScheme="purple">{book.category?.name}</Badge>
             </HStack>
           </VStack>
           
