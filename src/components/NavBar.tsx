@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Divider,
   HStack,
   Heading,
   Menu,
@@ -26,6 +27,7 @@ const NavBar = () => {
   }
 
   return (
+    <>
     <HStack justifyContent="space-between" padding="20px">
       <HStack justifyContent="space-between" spacing={10}>
         <Link to="/">
@@ -38,6 +40,9 @@ const NavBar = () => {
         </Link>
         <Link to="/categories">
           <Heading as="b" size="sm" whiteSpace="nowrap">Categories</Heading>
+        </Link>
+        <Link to="/books">
+          <Heading as="b" size="sm" whiteSpace="nowrap">Books</Heading>
         </Link>
       </HStack>
       <Spacer />
@@ -60,6 +65,8 @@ const NavBar = () => {
         <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
       </HStack>
     </HStack>
+    <Divider orientation="horizontal"/>
+    </>
   );
 };
 

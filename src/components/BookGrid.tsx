@@ -1,17 +1,18 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import CardContainer from "./CardContainer";
 import CardSkeleton from "./CardSkeleton";
-import BookCard from "./BookCard";
 import Book from "../models/Book";
+import { FunctionComponent } from "react";
 
 interface Props {
   books?: Book[];
   isLoading: boolean;
   error: Error | null;
+  BookCardComponent: FunctionComponent<{ book: Book }>;
 }
 
 
-const BookGrid = ({ books, isLoading, error }: Props) => {
+const BookGrid = ({ books, isLoading, error, BookCardComponent }: Props) => {
   const skeletons = Array(12).fill(0);
 
   if (error)
@@ -35,7 +36,7 @@ const BookGrid = ({ books, isLoading, error }: Props) => {
         ))}
       {books?.map(book => (
         <CardContainer key={book.id}>
-          <BookCard book={book} />
+          <BookCardComponent book={book} />
         </CardContainer>
       ))}
     </SimpleGrid>

@@ -1,6 +1,7 @@
 import {
   Badge,
   Box,
+  Button,
   HStack,
   Heading,
   Image,
@@ -46,6 +47,9 @@ const BookCard = ({ book }: Props) => {
             <Badge variant='solid' colorScheme="purple">{book.category?.name}</Badge>
             </HStack>
           </VStack>
+          <Button variant="solid" colorScheme="whatsapp" w="100%" mt={2}>
+            Reserve
+          </Button>
           
        
       </Box>

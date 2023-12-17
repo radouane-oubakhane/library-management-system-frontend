@@ -3,6 +3,7 @@ import useCategoryBooks from "../hooks/useCategryBooks";
 import useCategory from "../hooks/useCategory";
 import { Box, Text, Flex, Heading, Skeleton, Stack } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
+import BookCard from "../components/BookCard";
 
 const CategoryDetailPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -69,7 +70,7 @@ const CategoryDetailPage = () => {
         {booksIsLoading ? <Skeleton height="30px" width="400px" /> : "Books in this category"}
        
       </Heading>
-      <BookGrid books={books} isLoading={booksIsLoading} error={booksError} />
+      <BookGrid books={books} isLoading={booksIsLoading} error={booksError} BookCardComponent={BookCard} />
     </>
   );
 };
