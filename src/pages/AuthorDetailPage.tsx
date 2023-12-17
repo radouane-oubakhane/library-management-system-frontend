@@ -10,6 +10,7 @@ import {
   Image,
   VStack,
   Text,
+  Skeleton,
 } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import { ExpandableText } from "../components/ExpandableText";
@@ -85,9 +86,16 @@ const AuthorDetailPage = () => {
           </VStack>
         </GridItem>
         <GridItem area="divider">
-          <Divider my="30px" />
+          <Divider mt="30px" />
         </GridItem>
-        <GridItem area="cast" paddingX={8}>
+        <GridItem area="cast">
+          <Heading as="h2" size="lg" p={5}>
+            {booksIsLoading ? (
+              <Skeleton height="30px" width="400px" />
+            ) : (
+              `Books by ${author?.first_name} ${author?.last_name}`
+            )}
+          </Heading>
           <BookGrid
             books={books}
             isLoading={booksIsLoading}
@@ -102,5 +110,3 @@ const AuthorDetailPage = () => {
 };
 
 export default AuthorDetailPage;
-
-

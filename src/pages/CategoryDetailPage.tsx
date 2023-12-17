@@ -66,7 +66,8 @@ const CategoryDetailPage = () => {
         </Flex>
       </Box>
       <Heading as="h2" size="lg" p={5}>
-        Books in this category
+        {booksIsLoading ? <Skeleton height="30px" width="400px" /> : "Books in this category"}
+       
       </Heading>
       <BookGrid books={books} isLoading={booksIsLoading} error={booksError} />
     </>

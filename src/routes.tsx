@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ErrorPage from "./pages/ErrorPage";
 import AuthorDetailPage from "./pages/AuthorDetailPage";
 import CategoryDetailPage from "./pages/CategoryDetailPage";
+import InscriptionsPage from "./pages/inscriptionsPage";
 
 const router = createBrowserRouter([
   {
@@ -14,11 +15,17 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       {
         path: "authors/",
-        children: [{ path: ":authorId", element: <AuthorDetailPage /> }],
+        children: [
+          { path: ":authorId", element: <AuthorDetailPage /> },
+        ],
       },
       {
         path: "categories/",
         children: [{ path: ":categoryId", element: <CategoryDetailPage /> }],
+      },
+      {
+        path: "inscriptions/",
+        children: [{ index: true, element: <InscriptionsPage /> }],
       },
     ],
   },

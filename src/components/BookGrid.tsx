@@ -25,7 +25,7 @@ const BookGrid = ({ books, isLoading, error }: Props) => {
     <SimpleGrid
       columns={{ sm: 2, md: 3, lg: 4, xl: 6 }}
       spacing={10}
-      padding="10px"
+      padding="20px"
     >
       {isLoading &&
         skeletons.map((_, index) => (
