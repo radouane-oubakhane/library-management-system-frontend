@@ -44,6 +44,9 @@ const NavBar = () => {
         <Link to="/books">
           <Heading as="b" size="sm" whiteSpace="nowrap">Books</Heading>
         </Link>
+        <Link to="/authors">
+          <Heading as="b" size="sm" whiteSpace="nowrap">Authors</Heading>
+        </Link>
       </HStack>
       <Spacer />
 
