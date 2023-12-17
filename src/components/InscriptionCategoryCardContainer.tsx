@@ -7,7 +7,7 @@ interface Props {
 }
 
 
-const InscriptionCardContainer = ({ children }: Props) => {
+const InscriptionCategoryCardContainer = ({ children }: Props) => {
   return (
     <Card
         direction={{ base: 'column', sm: 'row' }}
@@ -20,4 +20,4 @@ const InscriptionCardContainer = ({ children }: Props) => {
   )
 }
 
-export default InscriptionCardContainer
+export default InscriptionCategoryCardContainer

@@ -4,7 +4,7 @@ import { CardBody, Stack, CardFooter, Skeleton, SkeletonText } from "@chakra-ui/
 
 
 
-const InscriptionCardSkeleton = () => {
+const InscriptionCategoryCardSkeleton = () => {
   return (
     <>
         <Skeleton
@@ -31,4 +31,4 @@ const InscriptionCardSkeleton = () => {
   )
 }
 
-export default InscriptionCardSkeleton
+export default InscriptionCategoryCardSkeleton

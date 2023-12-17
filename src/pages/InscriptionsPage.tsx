@@ -1,11 +1,11 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import useInscriptions from "../hooks/useInscriptions";
 import InscriptionCard from "../components/InscriptionCard";
-import InscriptionCardSkeleton from "../components/InscriptionCardSkeleton";
-import InscriptionCardContainer from "../components/InscriptionCardContainer";
+import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
+import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
 
 const InscriptionsPage = () => {
-  const {data: Inscriptions, isLoading, error} = useInscriptions();
+  const {data: inscriptions, isLoading, error} = useInscriptions();
 
   if (error)
   return (
@@ -25,14 +25,14 @@ const InscriptionsPage = () => {
     {
       isLoading && 
         skeletons.map((_, index) => (
-          <InscriptionCardContainer key={index}>
-          <InscriptionCardSkeleton/>
-          </InscriptionCardContainer>
+          <InscriptionCategoryCardContainer key={index}>
+          <InscriptionCategoryCardSkeleton/>
+          </InscriptionCategoryCardContainer>
         ))
     }
 
     {
-      Inscriptions?.map(Inscription => (
+      inscriptions?.map(Inscription => (
         <InscriptionCard key={Inscription.id} Inscription={Inscription} />
       ))
     }

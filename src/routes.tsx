@@ -5,6 +5,7 @@ import ErrorPage from "./pages/ErrorPage";
 import AuthorDetailPage from "./pages/AuthorDetailPage";
 import CategoryDetailPage from "./pages/CategoryDetailPage";
 import InscriptionsPage from "./pages/inscriptionsPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,10 @@ const router = createBrowserRouter([
       },
       {
         path: "categories/",
-        children: [{ path: ":categoryId", element: <CategoryDetailPage /> }],
+        children: [
+          { index: true, element: <CategoriesPage />},
+          { path: ":categoryId", element: <CategoryDetailPage /> }
+        ],
       },
       {
         path: "inscriptions/",

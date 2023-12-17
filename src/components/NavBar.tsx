@@ -36,6 +36,9 @@ const NavBar = () => {
         <Link to="/inscriptions">
           <Heading as="b" size="sm" whiteSpace="nowrap">Inscriptions</Heading>
         </Link>
+        <Link to="/categories">
+          <Heading as="b" size="sm" whiteSpace="nowrap">Categories</Heading>
+        </Link>
       </HStack>
       <Spacer />
 
