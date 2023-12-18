@@ -10,6 +10,7 @@ import BooksPage from "./pages/BooksPage";
 import AuthorsPage from "./pages/AuthorsPage";
 import MembersPage from "./pages/MembersPage";
 import ReservationsPage from "./pages/ReservationsPage";
+import BorrowsPage from "./pages/BorrowsPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "reservations/",
         children: [{ index: true, element: <ReservationsPage /> }],
+      },
+      {
+        path: "borrows/",
+        children: [{ index: true, element: <BorrowsPage /> }],
       }
     ],
   },

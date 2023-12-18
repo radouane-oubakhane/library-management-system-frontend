@@ -103,6 +103,17 @@ const NavBar = () => {
               Reservations
             </Heading>
           </Link>
+          <Link to="/borrows">
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("borrows")}
+              textColor={selectedSection === "borrows" ? "blue.500" : ""}
+            >
+              Borrows
+            </Heading>
+          </Link>
         </HStack>
         <Spacer />
 
