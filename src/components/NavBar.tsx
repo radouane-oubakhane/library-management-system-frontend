@@ -38,23 +38,58 @@ const NavBar = () => {
           <CategorySelector categories={categories} />
           <AuthorSelector authors={authors} />
           <Link to="/inscriptions">
-            <Heading as="b" size="sm" whiteSpace="nowrap" onClick={() => setSelectedSection("inscriptions")} textColor={selectedSection === "inscriptions" ? "blue.500" : ""}>
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("inscriptions")}
+              textColor={selectedSection === "inscriptions" ? "blue.500" : ""}
+            >
               Inscriptions
             </Heading>
           </Link>
           <Link to="/categories">
-            <Heading as="b" size="sm" whiteSpace="nowrap" onClick={() => setSelectedSection("categories")} textColor={selectedSection === "categories" ? "blue.500" : ""}>
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("categories")}
+              textColor={selectedSection === "categories" ? "blue.500" : ""}
+            >
               Categories
             </Heading>
           </Link>
           <Link to="/books">
-            <Heading as="b" size="sm" whiteSpace="nowrap" onClick={() => setSelectedSection("books")} textColor={selectedSection === "books" ? "blue.500" : ""}>
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("books")}
+              textColor={selectedSection === "books" ? "blue.500" : ""}
+            >
               Books
             </Heading>
           </Link>
           <Link to="/authors">
-            <Heading as="b" size="sm" whiteSpace="nowrap" onClick={() => setSelectedSection("authors")} textColor={selectedSection === "authors" ? "blue.500" : ""}>
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("authors")}
+              textColor={selectedSection === "authors" ? "blue.500" : ""}
+            >
               Authors
+            </Heading>
+          </Link>
+          <Link to="/members">
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("members")}
+              textColor={selectedSection === "members" ? "blue.500" : ""}
+            >
+              Members
             </Heading>
           </Link>
         </HStack>
@@ -84,5 +119,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-

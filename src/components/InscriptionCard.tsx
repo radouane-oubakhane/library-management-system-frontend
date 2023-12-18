@@ -3,9 +3,9 @@ import Inscription from "../models/Inscription"
 
 
 interface Props {
-  Inscription: Inscription
+  inscription: Inscription
 }
-const InscriptionCard = ({ Inscription }: Props) => {
+const InscriptionCard = ({ inscription }: Props) => {
   return (
     <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -21,25 +21,25 @@ const InscriptionCard = ({ Inscription }: Props) => {
 
   <Stack>
     <CardBody>
-      <Heading size='md'>{Inscription.first_name} {Inscription.last_name}</Heading>
+      <Heading size='md'>{inscription.first_name} {inscription.last_name}</Heading>
 
       <VStack align='start' mt={5} spacing={3}>
         <HStack spacing={1}>
           <Heading size='sm'>Email :</Heading>
           <Text>
-            {Inscription.email}
+            {inscription.email}
           </Text>
         </HStack>
         <HStack spacing={1}>
           <Heading size='sm'>Phone :</Heading>
           <Text>
-            {Inscription.phone}
+            {inscription.phone}
           </Text>
         </HStack>
         <HStack spacing={1}>
           <Heading size='sm'>Address :</Heading>
           <Text>
-            {Inscription.address}
+            {inscription.address}
           </Text>
         </HStack>
       </VStack>

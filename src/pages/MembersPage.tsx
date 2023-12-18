@@ -1,13 +1,13 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
-import useInscriptions from "../hooks/useInscriptions";
-import InscriptionCard from "../components/InscriptionCard";
-import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
+import useMembers from "../hooks/useMembers"
 import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
+import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
+import MemberCard from "../components/MemberCard";
 
-const InscriptionsPage = () => {
-  const {data: inscriptions, isLoading, error} = useInscriptions();
-
-  if (error)
+const MembersPage = () => {
+    const { data: members, isLoading, error } = useMembers();
+    
+    if (error)
   return (
     <Text fontSize="2xl" textAlign="center">
       {error.message}
@@ -32,13 +32,15 @@ const InscriptionsPage = () => {
     }
 
     {
-      inscriptions?.map(Inscription => (
-        <InscriptionCard key={Inscription.id} inscription={Inscription} />
+      members?.map(member => (
+        <MemberCard key={member.id} member={member} />
       ))
     }
       
     </SimpleGrid>
   );
-};
+}
 
-export default InscriptionsPage;
+export default MembersPage
+
+

@@ -24,6 +24,10 @@ const AuthorCard = ({ author }: Props) => {
           src="https://bit.ly/dan-abramov"
           alt="Green double couch with wooden legs"
           borderRadius="lg"
+          _hover={{
+            transform: "scale(1.03)",
+            transition: "transform 0.15s ease-in-out",
+          }}
         />
         <Stack mt="6" spacing="3">
           <Link to={`/authors/${author.id}`}>

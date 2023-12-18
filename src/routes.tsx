@@ -8,6 +8,7 @@ import InscriptionsPage from "./pages/inscriptionsPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import BooksPage from "./pages/BooksPage";
 import AuthorsPage from "./pages/AuthorsPage";
+import MembersPage from "./pages/MembersPage";
 
 const router = createBrowserRouter([
   {
@@ -19,15 +20,15 @@ const router = createBrowserRouter([
       {
         path: "authors/",
         children: [
-          { index: true, element: <AuthorsPage />},
+          { index: true, element: <AuthorsPage /> },
           { path: ":authorId", element: <AuthorDetailPage /> },
         ],
       },
       {
         path: "categories/",
         children: [
-          { index: true, element: <CategoriesPage />},
-          { path: ":categoryId", element: <CategoryDetailPage /> }
+          { index: true, element: <CategoriesPage /> },
+          { path: ":categoryId", element: <CategoryDetailPage /> },
         ],
       },
       {
@@ -37,10 +38,14 @@ const router = createBrowserRouter([
       {
         path: "books/",
         children: [
-          { index: true, element: <BooksPage />},
+          { index: true, element: <BooksPage /> },
           { path: ":bookId", element: <AuthorDetailPage /> },
         ],
-      }
+      },
+      {
+        path: "members/",
+        children: [{ index: true, element: <MembersPage /> }],
+      },
     ],
   },
 ]);
