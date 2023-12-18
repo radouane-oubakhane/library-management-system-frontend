@@ -10,8 +10,10 @@ const useDeleteAuthor = (authorId: string) => {
       apiClient
       .delete(`/authors/${authorId}`)
                 .then((res) => {
+                  const authors = queryClient.getQueryData<Author[]>(["authors"]) || [];
+                  const filteredAuthors = authors.filter((author) => author.id.toString() !== authorId);
+                  queryClient.setQueryData<Author[]>(["authors"], filteredAuthors);
                   return res.data;
-                  
                 }),
     onSuccess: () => {
       queryClient.invalidateQueries({

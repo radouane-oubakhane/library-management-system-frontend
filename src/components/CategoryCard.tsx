@@ -1,11 +1,13 @@
 import { Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text } from "@chakra-ui/react"
 import Category from "../models/Category"
+import useDeleteCategory from "../hooks/useDeleteCategory"
 
 
 interface Props {
   category: Category
 }
 const CategoryCard = ({ category }: Props) => {
+  const { mutate } = useDeleteCategory(category.id.toString())
   return (
     <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -29,7 +31,9 @@ const CategoryCard = ({ category }: Props) => {
       <Button variant='solid' colorScheme='whatsapp' mr={3}>
         Edit
       </Button>
-      <Button variant='solid' colorScheme='red'>
+      <Button variant='solid' colorScheme='red'
+      onClick={() => mutate(category)}
+      >
         Delete
       </Button>
     </CardFooter>
