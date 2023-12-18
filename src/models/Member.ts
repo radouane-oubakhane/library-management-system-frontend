@@ -10,4 +10,6 @@ export default interface Member {
   membership_start_date: string;
   membership_end_date: string;
   picture: string;
+  reservations_count: number;
+  borrows_count: number;
 }

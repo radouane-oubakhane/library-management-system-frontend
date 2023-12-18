@@ -92,6 +92,17 @@ const NavBar = () => {
               Members
             </Heading>
           </Link>
+          <Link to="/reservations">
+            <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              onClick={() => setSelectedSection("reservations")}
+              textColor={selectedSection === "reservations" ? "blue.500" : ""}
+            >
+              Reservations
+            </Heading>
+          </Link>
         </HStack>
         <Spacer />
 

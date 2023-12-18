@@ -9,6 +9,7 @@ import CategoriesPage from "./pages/CategoriesPage";
 import BooksPage from "./pages/BooksPage";
 import AuthorsPage from "./pages/AuthorsPage";
 import MembersPage from "./pages/MembersPage";
+import ReservationsPage from "./pages/ReservationsPage";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: "members/",
         children: [{ index: true, element: <MembersPage /> }],
       },
+      {
+        path: "reservations/",
+        children: [{ index: true, element: <ReservationsPage /> }],
+      }
     ],
   },
 ]);

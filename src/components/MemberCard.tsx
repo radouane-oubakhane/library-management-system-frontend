@@ -24,14 +24,14 @@ const MemberCard = ({ member }: Props) => {
     >
       <Image
         objectFit="cover"
-        maxW={{ base: "100%", sm: "200px" }}
+        maxW={{ base: "100%", sm: "300px" }}
         src="https://bit.ly/dan-abramov"
         alt="Caffe Latte"
       />
 
       <Stack>
         <CardBody>
-          <Heading size="md">
+          <Heading size="md" _hover={{ color: "blue.400" }}>
             {member.first_name} {member.last_name}
           </Heading>
 
@@ -53,8 +53,12 @@ const MemberCard = ({ member }: Props) => {
               <Text>{member.address}</Text>
             </HStack>
             <HStack spacing={1}>
-              <Heading size="sm">Address :</Heading>
-              <Text>{member.address}</Text>
+              <Heading size="sm">Number of borrows :</Heading>
+              <Text>{member.borrows_count}</Text>
+            </HStack>
+            <HStack spacing={1}>
+              <Heading size="sm">Number of reservations :</Heading>
+              <Text>{member.reservations_count}</Text>
             </HStack>
           </VStack>
         </CardBody>
