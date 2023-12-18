@@ -11,12 +11,14 @@ import {
 } from "@chakra-ui/react";
 import Author from "../models/Author";
 import { Link } from "react-router-dom";
+import useDeleteAuthor from "../hooks/useDeleteAuthor";
 
 interface Props {
   author: Author;
 }
 
 const AuthorCard = ({ author }: Props) => {
+  const {mutate} = useDeleteAuthor(author.id.toString());
   return (
     <Card maxW="sm">
       <CardBody>
@@ -43,7 +45,9 @@ const AuthorCard = ({ author }: Props) => {
         <Button variant="solid" colorScheme="whatsapp" w="100%">
           Edit
         </Button>
-        <Button variant="solid" colorScheme="red" w="100%">
+        <Button variant="solid" colorScheme="red" w="100%"
+        onClick={() => mutate(author)}
+        >
           Delete
         </Button>
       </HStack>
