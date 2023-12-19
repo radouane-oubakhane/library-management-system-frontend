@@ -2,6 +2,7 @@ import { Button, Card, CardBody, CardFooter, HStack, Heading, Image, Stack, Text
 import Inscription from "../models/Inscription"
 import useDeleteInscription from "../hooks/inscription/useDeleteInscription"
 import useAcceptInscription from "../hooks/inscription/useAcceptInscription"
+import useRejectInscription from "../hooks/inscription/useRejectInscription"
 
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 const InscriptionCard = ({ inscription }: Props) => {
   const {mutate: deleteInscription, isLoading: deleteLoading} = useDeleteInscription();
   const {mutate: acceptInscription, isLoading: acceptLoading} = useAcceptInscription();
+  const {mutate: rejectInscription, isLoading: rejectLoading} = useRejectInscription();
   return (
     <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -60,8 +62,11 @@ const InscriptionCard = ({ inscription }: Props) => {
       }
       {
         inscription.status === 'pending' &&
-        <Button variant='solid' colorScheme='yellow' mr={3}>
-        Reject
+        <Button variant='solid' colorScheme='yellow' mr={3}
+        onClick={() => rejectInscription(inscription)}
+        disabled={rejectLoading}
+        >
+        {rejectLoading ? 'Loading...' : 'Reject'}
       </Button>
       }
       

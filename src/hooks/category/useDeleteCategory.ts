@@ -24,6 +24,7 @@ const useDeleteCategory = () => {
       return { previousCategories };
     },
 
+
     onError: (error, category, context) => {
       if (!context) return;
       queryClient.setQueryData<Category[]>(["categories"], context.previousCategories);

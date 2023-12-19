@@ -16,13 +16,20 @@ import useCategories from "../hooks/category/useCategories";
 import AuthorSelector from "./AuthorSelector";
 import CategorySelector from "./CategorySelector";
 import ColorModeSwitch from "./ColorModeSwitch";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const NavBar = () => {
+  const location = useLocation();
   const { data: categories, error: categoryError } = useCategories();
   const { data: authors, error: authorError } = useAuthors();
-  const [selectedSection, setSelectedSection] = useState("home");
+  const [selectedSection, setSelectedSection] = useState("");
+
+
+  useEffect(() => {
+    
+    setSelectedSection(location.pathname.split("/")[1] || "home");
+  }, [location.pathname]);
 
 
  
