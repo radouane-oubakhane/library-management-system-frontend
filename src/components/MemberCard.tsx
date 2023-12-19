@@ -11,11 +11,13 @@ import {
   VStack
 } from "@chakra-ui/react";
 import Member from "../models/Member";
+import useDeleteMember from "../hooks/useDeleteMember";
 
 interface Props {
   member: Member;
 }
 const MemberCard = ({ member }: Props) => {
+  const { mutate, isLoading } = useDeleteMember();
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
@@ -64,8 +66,11 @@ const MemberCard = ({ member }: Props) => {
         </CardBody>
 
         <CardFooter>
-          <Button variant="solid" colorScheme="red">
-            Delete
+          <Button variant="solid" colorScheme="red"
+          onClick={() => mutate(member)}
+          isLoading={isLoading}
+          >
+            {isLoading ? "Loading..." : "Delete"}
           </Button>
         </CardFooter>
       </Stack>

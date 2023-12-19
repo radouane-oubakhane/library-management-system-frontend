@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Book from "../models/Book";
 import apiClient from "../services/api-client";
 import Inscription from "../models/Inscription";
 
@@ -38,4 +37,3 @@ export default useDeleteInscription;
 
 
 
-// git commit -m ""
