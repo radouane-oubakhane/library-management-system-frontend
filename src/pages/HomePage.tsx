@@ -1,6 +1,6 @@
 import BookCard from "../components/BookCard";
 import BookGrid from "../components/BookGrid";
-import useBooks from "../hooks/useBooks";
+import useBooks from "../hooks/book/useBooks";
 
 function HomePage() {
   const { data: books, error, isLoading } = useBooks();

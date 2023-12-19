@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Author from "../models/Author";
 import { Link } from "react-router-dom";
-import useDeleteAuthor from "../hooks/useDeleteAuthor";
+import useDeleteAuthor from "../hooks/author/useDeleteAuthor";
 
 interface Props {
   author: Author;

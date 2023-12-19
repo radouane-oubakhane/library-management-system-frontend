@@ -1,6 +1,6 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import CategoryCard from "../components/categoryCard";
-import useCategories from "../hooks/useCategories";
+import useCategories from "../hooks/category/useCategories";
 import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
 

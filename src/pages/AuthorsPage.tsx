@@ -1,5 +1,5 @@
 import AuthorGrid from "../components/AuthorGrid";
-import useAuthors from "../hooks/useAuthors";
+import useAuthors from "../hooks/author/useAuthors";
 
 const AuthorsPage = () => {
   const { data: authors, error, isLoading } = useAuthors();

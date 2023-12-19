@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import Author from "../models/Author"
-import apiClient from "../services/api-client"
+import Author from "../../models/Author"
+import apiClient from "../../services/api-client"
 
 
 

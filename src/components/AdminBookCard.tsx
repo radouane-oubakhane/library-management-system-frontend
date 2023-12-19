@@ -1,6 +1,6 @@
 import { Box, Button, HStack, Heading, Image, VStack } from "@chakra-ui/react";
 import Book from "../models/Book";
-import useDeleteBook from "../hooks/useDeleteBook";
+import useDeleteBook from "../hooks/book/useDeleteBook";
 import EditBookModal from "./EditBookMadel";
 
 interface Props {

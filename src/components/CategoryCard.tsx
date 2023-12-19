@@ -1,6 +1,6 @@
 import { Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text } from "@chakra-ui/react"
 import Category from "../models/Category"
-import useDeleteCategory from "../hooks/useDeleteCategory"
+import useDeleteCategory from "../hooks/category/useDeleteCategory"
 
 
 interface Props {

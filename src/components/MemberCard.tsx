@@ -11,7 +11,7 @@ import {
   VStack
 } from "@chakra-ui/react";
 import Member from "../models/Member";
-import useDeleteMember from "../hooks/useDeleteMember";
+import useDeleteMember from "../hooks/member/useDeleteMember";
 
 interface Props {
   member: Member;

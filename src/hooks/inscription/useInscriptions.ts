@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import Inscription from "../models/Inscription";
-import apiClient from "../services/api-client";
+import Inscription from "../../models/Inscription";
+import apiClient from "../../services/api-client";
 
 
 

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import useAuthor from "../hooks/useAuthor";
-import useAuthorBooks from "../hooks/useAuthorBooks";
+import useAuthor from "../hooks/author/useAuthor";
+import useAuthorBooks from "../hooks/author/useAuthorBooks";
 import {
   Center,
   Divider,

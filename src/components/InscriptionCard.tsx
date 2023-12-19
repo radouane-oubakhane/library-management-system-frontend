@@ -1,13 +1,15 @@
 import { Button, Card, CardBody, CardFooter, HStack, Heading, Image, Stack, Text, VStack } from "@chakra-ui/react"
 import Inscription from "../models/Inscription"
-import useDeleteInscription from "../hooks/useDeleteInscription"
+import useDeleteInscription from "../hooks/inscription/useDeleteInscription"
+import useAcceptInscription from "../hooks/inscription/useAcceptInscription"
 
 
 interface Props {
   inscription: Inscription
 }
 const InscriptionCard = ({ inscription }: Props) => {
-  const {mutate, isLoading} = useDeleteInscription();
+  const {mutate: deleteInscription, isLoading: deleteLoading} = useDeleteInscription();
+  const {mutate: acceptInscription, isLoading: acceptLoading} = useAcceptInscription();
   return (
     <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -48,18 +50,27 @@ const InscriptionCard = ({ inscription }: Props) => {
     </CardBody>
 
     <CardFooter>
-      <Button variant='solid' colorScheme='whatsapp' mr={3}>
-        Accept
-      </Button>
-      <Button variant='solid' colorScheme='yellow' mr={3}>
+      {(inscription.status === 'pending' || inscription.status === 'rejected') &&
+        <Button variant='solid' colorScheme='whatsapp' mr={3}
+        onClick={() => acceptInscription(inscription)}
+        disabled={acceptLoading}
+        >
+          {acceptLoading ? 'Loading...' : 'Accept'}
+        </Button>
+      }
+      {
+        inscription.status === 'pending' &&
+        <Button variant='solid' colorScheme='yellow' mr={3}>
         Reject
       </Button>
+      }
+      
       <Button variant='solid' colorScheme='red'
-      onClick={() => mutate(inscription)}
-      isLoading={isLoading}
+      onClick={() => deleteInscription(inscription)}
+      disabled={deleteLoading}
       
       >
-        {isLoading ? 'Loading...' : 'Delete'}
+        {deleteLoading ? 'Loading...' : 'Delete'}
       </Button>
     </CardFooter>
   </Stack>

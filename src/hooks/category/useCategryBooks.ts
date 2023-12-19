@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import Book from "../models/Book";
-import apiClient from "../services/api-client";
+import Book from "../../models/Book";
+import apiClient from "../../services/api-client";
 
 
 

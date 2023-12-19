@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiClient from "../services/api-client";
-import Member from "../models/Member";
+import apiClient from "../../services/api-client";
+import Member from "../../models/Member";
 
 interface DeleteMemberContext {
   member: Member[];

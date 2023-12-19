@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import useCategoryBooks from "../hooks/useCategryBooks";
-import useCategory from "../hooks/useCategory";
+import useCategoryBooks from "../hooks/category/useCategryBooks";
+import useCategory from "../hooks/category/useCategory";
 import { Box, Text, Flex, Heading, Skeleton, Stack } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import BookCard from "../components/BookCard";

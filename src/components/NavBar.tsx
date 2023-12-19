@@ -11,18 +11,21 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import useAuthors from "../hooks/useAuthors";
-import useCategories from "../hooks/useCategories";
+import useAuthors from "../hooks/author/useAuthors";
+import useCategories from "../hooks/category/useCategories";
 import AuthorSelector from "./AuthorSelector";
 import CategorySelector from "./CategorySelector";
 import ColorModeSwitch from "./ColorModeSwitch";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
   const { data: categories, error: categoryError } = useCategories();
   const { data: authors, error: authorError } = useAuthors();
   const [selectedSection, setSelectedSection] = useState("home");
+
+
+ 
 
   if (categoryError && authorError) {
     return null;
@@ -33,7 +36,16 @@ const NavBar = () => {
       <HStack justifyContent="space-between" padding="20px">
         <HStack justifyContent="space-between" spacing={10}>
           <Link to="/">
-            <Text>Logo</Text>
+          <Heading
+              as="b"
+              size="sm"
+              whiteSpace="nowrap"
+              fontFamily="cursive"
+              onClick={() => setSelectedSection("home")}
+              textColor={selectedSection === "home" ? "Fuchsia" : ""}
+            >
+              R-Library
+            </Heading>
           </Link>
           <CategorySelector categories={categories} />
           <AuthorSelector authors={authors} />

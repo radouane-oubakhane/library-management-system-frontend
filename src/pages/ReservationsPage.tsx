@@ -1,5 +1,5 @@
 import ReservationTable from "../components/ReservationTable"
-import useReservations from "../hooks/useReservations"
+import useReservations from "../hooks/reservation/useReservations"
 
 const ReservationsPage = () => {
     const { data: reservations, error, isLoading } = useReservations()

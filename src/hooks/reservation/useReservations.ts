@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../services/api-client";
-import Reservation from "../models/Reservation";
+import apiClient from "../../services/api-client";
+import Reservation from "../../models/Reservation";
 
 
 
