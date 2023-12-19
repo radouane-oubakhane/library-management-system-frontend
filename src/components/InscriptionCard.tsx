@@ -1,11 +1,13 @@
 import { Button, Card, CardBody, CardFooter, HStack, Heading, Image, Stack, Text, VStack } from "@chakra-ui/react"
 import Inscription from "../models/Inscription"
+import useDeleteInscription from "../hooks/useDeleteInscription"
 
 
 interface Props {
   inscription: Inscription
 }
 const InscriptionCard = ({ inscription }: Props) => {
+  const {mutate, isLoading} = useDeleteInscription();
   return (
     <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -52,8 +54,12 @@ const InscriptionCard = ({ inscription }: Props) => {
       <Button variant='solid' colorScheme='yellow' mr={3}>
         Reject
       </Button>
-      <Button variant='solid' colorScheme='red'>
-        Delete
+      <Button variant='solid' colorScheme='red'
+      onClick={() => mutate(inscription)}
+      isLoading={isLoading}
+      
+      >
+        {isLoading ? 'Loading...' : 'Delete'}
       </Button>
     </CardFooter>
   </Stack>

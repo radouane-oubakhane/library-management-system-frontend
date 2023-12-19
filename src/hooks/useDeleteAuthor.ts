@@ -21,7 +21,7 @@ const useDeleteAuthor = () => {
       });
 
       return { previousAuthors };
-
+    },
     onError: (error, author, context) => {
       if (!context) return;
       queryClient.setQueryData<Author[]>(["authors"], context.previousBooks);
