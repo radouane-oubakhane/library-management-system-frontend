@@ -18,7 +18,7 @@ interface Props {
 }
 
 const AuthorCard = ({ author }: Props) => {
-  const {mutate} = useDeleteAuthor(author.id.toString());
+  const {mutate, isLoading} = useDeleteAuthor();
   return (
     <Card maxW="sm">
       <CardBody>
@@ -47,8 +47,9 @@ const AuthorCard = ({ author }: Props) => {
         </Button>
         <Button variant="solid" colorScheme="red" w="100%"
         onClick={() => mutate(author)}
+        isLoading={isLoading}
         >
-          Delete
+          {isLoading ? 'Deleting...' : 'Delete'}
         </Button>
       </HStack>
     </Card>

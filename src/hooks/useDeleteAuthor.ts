@@ -2,27 +2,31 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../services/api-client";
 import Author from "../models/Author";
 
-const useDeleteAuthor = (authorId: string) => {
+interface DeleteAuthorContext {
+  book: Author[];
+}
+
+const useDeleteAuthor = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Author, Error, Author>({
-    mutationFn: () =>
-      apiClient
-      .delete(`/authors/${authorId}`)
-                .then((res) => {
-                  const authors = queryClient.getQueryData<Author[]>(["authors"]) || [];
-                  const filteredAuthors = authors.filter((author) => author.id.toString() !== authorId);
-                  queryClient.setQueryData<Author[]>(["authors"], filteredAuthors);
-                  return res.data;
-                }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["authors"],
+  return useMutation<void, Error, Author, DeleteAuthorContext>({
+    mutationFn: (author: Author) =>
+      apiClient.delete(`/authors/${author.id}`).then((res) => res.data),
+
+    onMutate: (author: Author) => {
+      const previousAuthors = queryClient.getQueryData<Author[]>(["authors"]) || [];
+
+      queryClient.setQueryData<Author[]>(["authors"], (old) => {
+        return old?.filter((a) => a.id !== author.id) || [];
       });
+
+      return { previousAuthors };
+
+    onError: (error, author, context) => {
+      if (!context) return;
+      queryClient.setQueryData<Author[]>(["authors"], context.previousBooks);
     },
   });
 };
 
 export default useDeleteAuthor;
-
-

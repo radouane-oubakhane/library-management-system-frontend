@@ -47,16 +47,6 @@ const ReservationTable = ({ reservations, isLoading, error }: Props) => {
       {isLoading && (
         <TableContainer>
           <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Member</Th>
-                <Th>Book</Th>
-                <Th>Reservation Date</Th>
-                <Th>Expiration Date</Th>
-                <Th>Status</Th>
-                <Th>Cancellation Date</Th>
-              </Tr>
-            </Thead>
             <Tbody>
               {skeletons.map((_, index) => (
                 <Tr key={index}>

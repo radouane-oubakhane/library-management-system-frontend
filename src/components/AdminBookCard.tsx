@@ -1,13 +1,14 @@
 import { Box, Button, HStack, Heading, Image, VStack } from "@chakra-ui/react";
 import Book from "../models/Book";
 import useDeleteBook from "../hooks/useDeleteBook";
+import EditBookModal from "./EditBookMadel";
 
 interface Props {
   book: Book;
 }
 
 const AdminBookCard = ({ book }: Props) => {
-  const {mutate} = useDeleteBook(book.id.toString());
+  const {mutate, isLoading, error} = useDeleteBook();
 
   return (
     <VStack spacing={4} align="stretch">
@@ -33,15 +34,15 @@ const AdminBookCard = ({ book }: Props) => {
             {book.title}
           </Heading>
           <HStack justifyContent="space-between" spacing={4} pt={2}>
-            <Button variant="solid" colorScheme="whatsapp" mr={3} w="100%">
-              Edit
-            </Button>
+            <EditBookModal book={book} />
             <Button variant="solid" colorScheme="red" w="100%"
+            disabled={isLoading}
               onClick={() => {
                 mutate(book);
               }}
             >
-              Delete
+          
+              {isLoading ? "Deleting..." : "Delete"}
             </Button>
           </HStack>
         </VStack>
