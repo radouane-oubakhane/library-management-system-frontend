@@ -3,6 +3,7 @@ import useInscriptions from "../hooks/inscription/useInscriptions";
 import InscriptionCard from "../components/InscriptionCard";
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
 import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
+import HeaderPage from "../components/HeaderPage";
 
 const InscriptionsPage = () => {
   const {data: inscriptions, isLoading, error} = useInscriptions();
@@ -16,6 +17,8 @@ const InscriptionsPage = () => {
 
   const skeletons = Array(12).fill(0);
   return (
+    <>
+    <HeaderPage title="Inscriptions" button={false} />
     <SimpleGrid
     columns={{ lg: 1, xl:2 }}
     spacing={10}
@@ -38,6 +41,7 @@ const InscriptionsPage = () => {
     }
       
     </SimpleGrid>
+    </>
   );
 };
 

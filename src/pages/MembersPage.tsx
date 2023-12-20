@@ -3,6 +3,7 @@ import useMembers from "../hooks/member/useMembers"
 import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
 import MemberCard from "../components/MemberCard";
+import HeaderPage from "../components/HeaderPage";
 
 const MembersPage = () => {
     const { data: members, isLoading, error } = useMembers();
@@ -16,6 +17,8 @@ const MembersPage = () => {
 
   const skeletons = Array(12).fill(0);
   return (
+    <>
+    <HeaderPage title="Members" button={false} />
     <SimpleGrid
     columns={{ lg: 1, xl:2 }}
     spacing={10}
@@ -38,6 +41,7 @@ const MembersPage = () => {
     }
       
     </SimpleGrid>
+    </>
   );
 }
 
