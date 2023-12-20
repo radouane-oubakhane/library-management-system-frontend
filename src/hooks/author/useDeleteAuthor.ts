@@ -23,6 +23,10 @@ const useDeleteAuthor = () => {
       return { previousAuthors };
     },
 
+    onSuccess: () => {
+      queryClient.invalidateQueries(["books"]);
+    },
+
 
     onError: (error, author, context) => {
       if (!context) return;

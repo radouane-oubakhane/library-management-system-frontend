@@ -1,16 +1,17 @@
-import { Button, HStack, Heading } from "@chakra-ui/react"
+import { HStack, Heading } from "@chakra-ui/react"
+import { FunctionComponent } from "react";
 
 interface Props {
   title: string;
   button?: boolean;
-  buttonTitle?: string;
+  ButtonComponent: FunctionComponent;
 }
 
-const HeaderPage = ({ title, button, buttonTitle }: Props) => {
+const HeaderPage = ({ title, button, ButtonComponent }: Props) => {
   return (
     <HStack spacing={4} justify="space-between" align="center" padding={"20px"}>
       <Heading>{title}</Heading>
-      {button && <Button colorScheme="blue">{buttonTitle}</Button>}
+      {button && <ButtonComponent />}
     </HStack>
   )
 }

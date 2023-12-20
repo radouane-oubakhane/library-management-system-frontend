@@ -14,13 +14,9 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import React from "react";
-import Category from "../models/Category";
 
-interface Props {
-  category: Category;
-}
 
-const EditCategoryModal = ({ category }: Props) => {
+const AddCategoryModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
@@ -30,12 +26,12 @@ const EditCategoryModal = ({ category }: Props) => {
     <>
       <Button
         variant="solid"
-        colorScheme="whatsapp"
+        colorScheme="blue"
         mr={3}
         
         onClick={onOpen}
       >
-        Edit
+        Add New Category
       </Button>
 
       <Modal
@@ -46,7 +42,7 @@ const EditCategoryModal = ({ category }: Props) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit Category</ModalHeader>
+          <ModalHeader>Add New Category</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -54,7 +50,7 @@ const EditCategoryModal = ({ category }: Props) => {
               <Input
                 ref={initialRef}
                 placeholder="First name"
-                value={category.name}
+                
               />
             </FormControl>
 
@@ -63,7 +59,7 @@ const EditCategoryModal = ({ category }: Props) => {
               <FormLabel>Description</FormLabel>
               <Textarea
                 placeholder="Here is a sample placeholder"
-                value={category.description}
+               
               />
             </FormControl>
 
@@ -85,4 +81,4 @@ const EditCategoryModal = ({ category }: Props) => {
   );
 };
 
-export default EditCategoryModal;
+export default AddCategoryModal;

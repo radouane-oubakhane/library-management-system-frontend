@@ -1,4 +1,4 @@
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Button, SimpleGrid, Text } from "@chakra-ui/react";
 import useInscriptions from "../hooks/inscription/useInscriptions";
 import InscriptionCard from "../components/InscriptionCard";
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
@@ -18,7 +18,7 @@ const InscriptionsPage = () => {
   const skeletons = Array(12).fill(0);
   return (
     <>
-    <HeaderPage title="Inscriptions" button={false} />
+    <HeaderPage title="Inscriptions" ButtonComponent={Button} />
     <SimpleGrid
     columns={{ lg: 1, xl:2 }}
     spacing={10}

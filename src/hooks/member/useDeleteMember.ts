@@ -24,6 +24,10 @@ const useDeleteMember = () => {
       return { previousMembers };
     },
 
+    onSuccess: () => {
+      queryClient.invalidateQueries(["reservations"]);
+    },
+
     onError: (error, member, context) => {
       if (!context) return;
       queryClient.setQueryData<Member[]>(["members"], context.previousMembers);

@@ -13,6 +13,8 @@ import {
   Center,
 } from "@chakra-ui/react";
 import Book from "../models/Book";
+import EditBookModal from "./EditBookMadel";
+import useDeleteBook from "../hooks/book/useDeleteBook";
 
 interface Props {
   book: Book;
@@ -20,6 +22,7 @@ interface Props {
 
 const BookModal = ({ book }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {mutate, isLoading, error} = useDeleteBook();
 
   return (
     <>
@@ -50,11 +53,17 @@ const BookModal = ({ book }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="solid" colorScheme="whatsapp" mr={3} w="100%">
-              Edit
-            </Button>
-            <Button variant="solid" colorScheme="red" w="100%" mr={3}>
-              Delete
+          <EditBookModal book={book} />
+            <Button variant="solid" colorScheme="red" w="100%"
+            disabled={isLoading}
+              onClick={() => {
+                mutate(book);
+                onClose();
+              }}
+              mr={3}
+            >
+          
+              {isLoading ? "Deleting..." : "Delete"}
             </Button>
             <Button colorScheme="blue" mr={3} w="100%" onClick={onClose}>
               Close

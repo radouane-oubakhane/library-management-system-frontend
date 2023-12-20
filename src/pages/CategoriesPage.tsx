@@ -4,6 +4,7 @@ import useCategories from "../hooks/category/useCategories";
 import InscriptionCategoryCardContainer from "../components/InscriptionCategoryCardContainer";
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
 import HeaderPage from "../components/HeaderPage";
+import AddCategoryModal from "../components/AddCategoryMadel";
 
 const CategoriesPage = () => {
   const { data: categories, isLoading, error } = useCategories();
@@ -19,7 +20,7 @@ const CategoriesPage = () => {
 
   return (
     <>
-    <HeaderPage title="Categories" button buttonTitle="Add New Category" />
+    <HeaderPage title="Categories" button ButtonComponent={AddCategoryModal} />
     <SimpleGrid columns={{md: 1, lg: 2, xl: 3 }} spacing={10} padding="20px">
       {isLoading &&
         skeletons.map((_, index) => (

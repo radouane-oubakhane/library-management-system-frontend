@@ -24,6 +24,10 @@ const useDeleteBook = () => {
       return { previousBooks };
     },
 
+    onSuccess: () => {
+      queryClient.invalidateQueries(["reservations"]);
+    },
+
    
 
     onError: (error, book, context) => {

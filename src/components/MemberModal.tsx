@@ -15,12 +15,14 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import Member from "../models/Member";
+import useDeleteMember from "../hooks/member/useDeleteMember";
 
 interface Props {
   member: Member;
 }
 
 const MemberModal = ({ member }: Props) => {
+  const { mutate, isLoading } = useDeleteMember();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -57,10 +59,13 @@ const MemberModal = ({ member }: Props) => {
           </VStack>
 
           <ModalFooter>
-            <Button variant="solid" colorScheme="red" w="100%" mr={3}>
-              Delete
-            </Button>
-            <Button colorScheme="blue" mr={3} w="100%" onClick={onClose}>
+          <Button variant="solid" colorScheme="red" w="100%" mr={3}
+          onClick={() => mutate(member)}
+          isLoading={isLoading}
+          >
+            {isLoading ? "Loading..." : "Delete"}
+          </Button>
+            <Button colorScheme="blue"  w="100%" onClick={onClose}>
               Close
             </Button>
           </ModalFooter>

@@ -1,3 +1,4 @@
+import AddBookModal from "../components/AddBookMadel";
 import AdminBookCard from "../components/AdminBookCard";
 import BookGrid from "../components/BookGrid"
 import HeaderPage from "../components/HeaderPage";
@@ -7,7 +8,7 @@ const BooksPage = () => {
   const { data: books, error, isLoading } = useBooks();
   return (
     <>
-      <HeaderPage title="Books" button buttonTitle="Add New Book" />
+      <HeaderPage title="Books" button ButtonComponent={AddBookModal} />
       <BookGrid books={books}  isLoading={isLoading} error={error} BookCardComponent={AdminBookCard} />
     </>
   )
