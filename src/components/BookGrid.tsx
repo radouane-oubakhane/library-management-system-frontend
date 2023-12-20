@@ -34,8 +34,8 @@ const BookGrid = ({ books, isLoading, error, BookCardComponent }: Props) => {
             <CardSkeleton />
           </CardContainer>
         ))}
-      {books?.map(book => (
-        <CardContainer key={book.id}>
+      {books?.map((book, index) => (
+        <CardContainer key={index}>
           <BookCardComponent book={book} />
         </CardContainer>
       ))}

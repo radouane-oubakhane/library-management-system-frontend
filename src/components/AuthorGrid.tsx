@@ -34,8 +34,8 @@ const AuthorGrid = ({ authors, isLoading, error }: Props) => {
             <AdminCardSkeleton />
           </CardContainer>
         ))}
-      {authors?.map(author => (
-        <CardContainer key={author.id}>
+      {authors?.map((author, index) => (
+        <CardContainer key={index}>
           <AuthorCard author={author} />
         </CardContainer>
       ))}
