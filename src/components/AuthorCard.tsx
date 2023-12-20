@@ -12,6 +12,7 @@ import {
 import Author from "../models/Author";
 import { Link } from "react-router-dom";
 import useDeleteAuthor from "../hooks/author/useDeleteAuthor";
+import EditAuthorModal from "./EditAuthorMadel";
 
 interface Props {
   author: Author;
@@ -42,9 +43,7 @@ const AuthorCard = ({ author }: Props) => {
       </CardBody>
       <Divider />
       <HStack justifyContent="space-between" spacing={4} p={4}>
-        <Button variant="solid" colorScheme="whatsapp" w="100%">
-          Edit
-        </Button>
+        <EditAuthorModal author={author} />
         <Button variant="solid" colorScheme="red" w="100%"
         onClick={() => mutate(author)}
         isLoading={isLoading}
