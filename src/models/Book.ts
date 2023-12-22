@@ -9,7 +9,7 @@ export default interface Book {
         author_first_name?: string;
         author_last_name?: string;
         category?: Category;
-        category_id?: number;
+        book_category_id?: number;
         isbn: string;
         description: string;
         stock: number;

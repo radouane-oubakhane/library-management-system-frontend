@@ -6,19 +6,20 @@ interface AddBookContext {
   book: Book[];
 }
 
-const useAddBook = () => {
+const useEditBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation<Book, Error, Book, AddBookContext>({
     mutationFn: (book: Book) =>
-      apiClient.post(`/books`, book).then((res) => res.data),
+      apiClient.put(`/books/${book.id}`, book).then((res) => res.data),
 
     onMutate: (newBook: Book) => {
       const previousBooks = queryClient.getQueryData<Book[]>(["books"]) || [];
 
       queryClient.setQueryData<Book[]>(["books"], (old = []) => [
-        newBook,
-        ...old,
+        ...old.map((book) =>
+          book.id === newBook.id ? { ...book, ...newBook } : book
+        ),
       ]);
 
       return { previousBooks };
@@ -35,4 +36,6 @@ const useAddBook = () => {
   });
 };
 
-export default useAddBook;
+export default useEditBook;
+
+

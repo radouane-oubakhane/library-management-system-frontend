@@ -10,18 +10,39 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Textarea, // Add this import
+  Textarea, 
   ModalFooter,
   Select,
 } from "@chakra-ui/react";
-import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import Book from "../models/Book";
 import useAuthors from "../hooks/author/useAuthors";
 import useCategories from "../hooks/category/useCategories";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import useEditBook from "../hooks/book/useEditBook";
 
 interface Props {
   book: Book;
 }
+
+
+const schema = z.object({
+  title: z.optional(z.string()),
+    book_category_id: z.optional(z.string()),
+    author_id: z.optional(z.string()),
+  isbn: z.optional(z.string()),
+  description: z.optional(z.string()),
+  stock: z.optional(z.string()),
+  publisher: z.optional(z.string()),
+  published_at: z.optional(z.string()),
+  language: z.optional(z.string()),
+  edition: z.optional(z.string()),
+  picture: z.optional(z.string()),
+});
+
+type FormValues = z.infer<typeof schema>;
+
 
 const EditBookModal = ({ book }: Props) => {
   const {
@@ -36,8 +57,31 @@ const EditBookModal = ({ book }: Props) => {
   } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+  });
+
+  const { mutate } = useEditBook();
+
+  const onSubmit = (data: FormValues) => {
+
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== '')
+    );
+
+
+    mutate({
+      id: book.id,
+      ...filteredData,
+    } as Book);
+    reset();
+    onClose();
+  };
 
   return (
     <>
@@ -52,8 +96,6 @@ const EditBookModal = ({ book }: Props) => {
       </Button>
 
       <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
       >
@@ -65,89 +107,135 @@ const EditBookModal = ({ book }: Props) => {
             <FormControl>
               <FormLabel>Title</FormLabel>
               <Input
-                ref={initialRef}
-                placeholder="First name"
-                value={book.title}
+                {...register("title")}
+                type="text"
+                placeholder={book.title}
+                id="title"
               />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>ISBN</FormLabel>
-              <Input placeholder="Last name" value={book.isbn} />
+              <Input
+                {...register("isbn")}
+                type="text"
+                placeholder={book.isbn}
+                id="isbn"
+               />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Category</FormLabel>
-              <Select placeholder={book.category?.name}>
-                {categories?.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  {...register("book_category_id")}
+                  placeholder={book.category?.name}
+                  id="category_id"
+                >
+                  {categories?.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Author</FormLabel>
-              <Select
-                placeholder={
-                  book.author_first_name + " " + book.author_last_name
-                }
+              <FormControl mt={4}>
+                <FormLabel>Author</FormLabel>
+                <Select
+                  {...register("author_id")}
+                  placeholder={book.author_first_name + " " + book.author_first_name}
+                  id="author_id"
+                >
+                  {authors?.map((author) => (
+                    <option key={author.id} value={author.id}>
+                      {author.first_name + " " + author.last_name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  {...register("description")}
+                  id="description"
+                  height="100px"
+                  placeholder={book.description}
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Stock</FormLabel>
+                <Input
+                  {...register("stock")}
+                  type="number"
+                  placeholder={Number(book.stock).toString()}
+                  id="stock"
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Publisher</FormLabel>
+                <Input
+                  {...register("publisher")}
+                  type="text"
+                  placeholder={book.publisher}
+                  id="publisher"
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Publisher Date</FormLabel>
+                <Input
+                  {...register("published_at")}
+                  type="date"
+                  placeholder={book.published_at}
+                  id="published_at"
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Language</FormLabel>
+                <Input
+                  {...register("language")}
+                  type="text"
+                  placeholder={book.language}
+                  id="language"
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Edition</FormLabel>
+                <Input
+                  {...register("edition")}
+                  type="text"
+                  placeholder={book.edition}
+                  id="edition"
+                />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Book Cover</FormLabel>
+                <Input 
+                {...register("picture")} 
+                type="text" 
+                placeholder={book.picture}
+                id="picture" />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                type="submit"
+                disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
               >
-                {authors?.map((author) => (
-                  <option key={author.id} value={author.id}>
-                    {author.first_name + " " + author.last_name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                height="100px"
-                placeholder="Here is a sample placeholder"
-                value={book.description}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Stock</FormLabel>
-              <Input placeholder="Last name" value={book.stock} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Publisher</FormLabel>
-              <Input placeholder="Last name" value={book.publisher} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Publisher Date</FormLabel>
-              <Input placeholder="Last name" value={book.isbn} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Language</FormLabel>
-              <Input placeholder="Last name" value={book.language} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Edition</FormLabel>
-              <Input placeholder="Last name" value={book.edition} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Book Cover</FormLabel>
-              <Input type="file" accept="image/*" />
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
+                Save
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
         </ModalContent>
       </Modal>
     </>

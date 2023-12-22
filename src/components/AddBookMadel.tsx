@@ -26,15 +26,15 @@ const schema = z.object({
   title: z
     .string()
     .min(3, { message: "Title must be at least 3 characters long" }),
-  author_id: z.number().min(1, { message: "Please select an author" }),
-  category_id: z.number().min(1, { message: "Please select a category" }),
+    category_id: z.string().nonempty({ message: 'Please select a category' }),
+    author_id: z.string().nonempty({ message: 'Please select an author' }),
   isbn: z
     .string()
     .min(3, { message: "ISBN must be at least 3 characters long" }),
   description: z
     .string()
     .min(3, { message: "Description must be at least 3 characters long" }),
-  stock: z.number().min(1, { message: "Stock must be at least 1" }),
+  stock: z.string().min(1, { message: "Stock must be at least 1 character long" }),
   publisher: z
     .string()
     .min(3, { message: "Publisher must be at least 3 characters long" }),
@@ -75,13 +75,14 @@ const AddBookModal = () => {
   const { mutate } = useAddBook();
 
   const onSubmit = (data: FormValues) => {
+    console.log(data);
     mutate({
       title: data.title,
-      author_id: data.author_id,
-      category_id: data.category_id,
+      author_id: Number(data.author_id),
+      book_category_id: Number(data.category_id),
       isbn: data.isbn,
       description: data.description,
-      stock: data.stock,
+      stock: Number(data.stock),
       publisher: data.publisher,
       published_at: data.published_at,
       language: data.language,
@@ -146,7 +147,6 @@ const AddBookModal = () => {
                   {...register("author_id")}
                   placeholder="Select author"
                   id="author_id"
-
                 >
                   {authors?.map((author) => (
                     <option key={author.id} value={author.id}>
