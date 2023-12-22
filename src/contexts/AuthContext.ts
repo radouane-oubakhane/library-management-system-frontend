@@ -7,9 +7,20 @@ import Inscription from "../models/Inscription";
 
 interface AuthContextType {
   user: User | null;
+
   login: (user: User) => void;
+  loginError: string | null;
+  resetLoginError: () => void;
+  loginLoading: boolean;
+
   register: (inscription: Inscription) => void;
+  registerError: string | null;
+  resetRegisterError: () => void;
+
   logout: () => void;
+  logoutError: string | null;
+  resetLogoutError: () => void;
+  logoutLoading: boolean;
 }
 
 const AuthContext =

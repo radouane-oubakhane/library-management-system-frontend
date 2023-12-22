@@ -4,7 +4,7 @@ import apiClient from "../../services/api-client";
 
 
 
-const useLogin = (onRegisterSuccess: () => void) => {
+const useLogin = (onRegisterSuccess: () => void, onError: (error: Error) => void) => {
 
     return useMutation<void, Error, void>({
       mutationFn: () =>
@@ -13,6 +13,9 @@ const useLogin = (onRegisterSuccess: () => void) => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("user");
         onRegisterSuccess();
+      },
+      onError: (error) => {
+        onError(error);
       }
     });
   };

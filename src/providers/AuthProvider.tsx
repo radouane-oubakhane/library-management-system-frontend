@@ -20,17 +20,28 @@ interface Props {
 
 const AuthProvider = ({ children, onLogin, onRegister, onLogout }: Props) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loginError, setLoginError] = useState<string>("");
+  const [registerError, setRegisterError] = useState<string>("");
+  const [logoutError, setLogoutError] = useState<string>("");
 
   const { mutate: mutateRegister } = useRegister(() => {
 
   });
-  const { mutate: mutateLogin } = useLogin((user) => {
+  const { mutate: mutateLogin, isLoading: isLoadingLogin } = useLogin((user: User) => {
     setUser(user);
-  });
+  },
+    (error) => {
+      setLoginError(error.message);
+    }
+  );
 
-  const { mutate: mutateLogout } = useLogout(() => {
+  const { mutate: mutateLogout, isLoading: isLoadingLogout } = useLogout(() => {
     setUser(null);
-  });
+  },
+  (error) => {
+    setLogoutError(error.message);
+  }
+  );
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -47,23 +58,52 @@ const AuthProvider = ({ children, onLogin, onRegister, onLogout }: Props) => {
     onLogin();
   };
 
+  const resetLoginError = () => {
+    setLoginError("");
+  }
+
+
+
   const register = (inscriptions: Inscription) => {
     mutateRegister(inscriptions);
     onRegister();
   };
+
+  const resetRegisterError = () => {
+    setRegisterError("");
+  }
+
+
+
 
   const logout = () => {
     mutateLogout();
     onLogout();
   }
 
+  const resetLogoutError = () => {
+    setLogoutError("");
+  }
+
+
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
+        loginError,
+        resetLoginError,
+        loginLoading: isLoadingLogin,
+
         register,
+        registerError,
+        resetRegisterError,
+
         logout,
+        logoutError,
+        resetLogoutError,
+        logoutLoading: isLoadingLogout,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ interface LoginResponse {
 
 
 
-const useLogin = (onRegisterSuccess: (user: User) => void) => {
+const useLogin = (onRegisterSuccess: (user: User) => void, onError: (error: Error) => void) => {
 
     return useMutation<LoginResponse, Error, User>({
       mutationFn: (user: User) =>
@@ -21,6 +21,9 @@ const useLogin = (onRegisterSuccess: (user: User) => void) => {
         localStorage.setItem("user", JSON.stringify(user.user));
         onRegisterSuccess(user.user);
       },
+      onError: (error) => {
+        onError(error);
+      }
     });
   };
   

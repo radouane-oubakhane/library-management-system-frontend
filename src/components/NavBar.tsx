@@ -9,7 +9,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import useAuthors from "../hooks/author/useAuthors";
 import useCategories from "../hooks/category/useCategories";
@@ -21,11 +23,23 @@ import { useEffect, useState } from "react";
 import useAuth from "../hooks/auth/useAuth";
 
 const NavBar = () => {
+  const toast = useToast();
   const location = useLocation();
   const { data: categories, error: categoryError } = useCategories();
   const { data: authors, error: authorError } = useAuthors();
   const [selectedSection, setSelectedSection] = useState("");
-  const { user, logout } = useAuth();
+  const {
+    user,
+    logout,
+    loginLoading,
+    logoutLoading,
+    loginError,
+    resetLoginError,
+    logoutError,
+    resetLogoutError,
+    registerError,
+    resetRegisterError,
+  } = useAuth();
   const history = useNavigate();
 
   useEffect(() => {
@@ -35,6 +49,21 @@ const NavBar = () => {
   if (categoryError && authorError) {
     return null;
   }
+
+  const showLoginError = () => {
+    if (loginError || logoutError || registerError) {
+      toast({
+        title: "An error occurred.",
+        description: loginError,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      resetLoginError();
+      resetLogoutError();
+      resetRegisterError();
+    }
+  };
 
   return (
     <>
@@ -151,13 +180,13 @@ const NavBar = () => {
         <HStack justifyContent="space-between" spacing={4}>
           <ColorModeSwitch />
           <Menu>
-            <MenuButton>
+            
               <Heading as="b" size="sm" whiteSpace="nowrap">
-                <Button colorScheme="gray">
+                <Button colorScheme="gray" as={MenuButton}>
                   {user ? user.first_name + " " + user.last_name : "Guest"}
                 </Button>
               </Heading>
-            </MenuButton>
+            
             <MenuList>
               {user && <MenuItem>Profile</MenuItem>}
               {!user && (
@@ -187,7 +216,14 @@ const NavBar = () => {
           )}
         </HStack>
       </HStack>
-      <Divider orientation="horizontal" />
+      {(!loginLoading || !logoutLoading) && (
+        <Divider orientation="horizontal" />
+      )}
+      {(loginLoading || logoutLoading) && (
+        <Skeleton startColor="pink.500" endColor="orange.500" height="4px" />
+      )}
+
+      {(loginError || registerError || logoutError) && showLoginError()}
     </>
   );
 };
