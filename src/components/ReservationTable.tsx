@@ -9,10 +9,13 @@ import {
   Tr,
   Text,
   Skeleton,
+  Button,
 } from "@chakra-ui/react";
 import Reservation from "../models/Reservation";
 import BookModal from "./BookModal";
 import MemberModal from "./MemberModal";
+import useDeleteReservation from "../hooks/reservation/useDeleteReservation";
+import useBorrowReservation from "../hooks/reservation/useBorrowReservation";
 
 interface Props {
   reservations?: Reservation[];
@@ -21,6 +24,15 @@ interface Props {
 }
 
 const ReservationTable = ({ reservations, isLoading, error }: Props) => {
+  const { mutate: deleteReservation, isLoading: isDeleting } =
+  useDeleteReservation();
+
+const { mutate: borrowReservation, isLoading: isBorrowing } =
+  useBorrowReservation();
+
+
+
+
   if (error)
     return (
       <Text fontSize="2xl" textAlign="center">
@@ -85,6 +97,7 @@ const ReservationTable = ({ reservations, isLoading, error }: Props) => {
               <Th>Expiration Date</Th>
               <Th>Status</Th>
               <Th>Cancellation Date</Th>
+              <Th>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -93,7 +106,9 @@ const ReservationTable = ({ reservations, isLoading, error }: Props) => {
                 <Td>
                   <MemberModal member={reservation.member} />
                 </Td>
-                <Td><BookModal book={reservation.book} /></Td>
+                <Td>
+                  <BookModal book={reservation.book} />
+                </Td>
                 <Td>{reservation.reserved_at}</Td>
                 <Td>{reservation.expired_at}</Td>
                 <Td color={statusColor(reservation.status)}>
@@ -101,6 +116,24 @@ const ReservationTable = ({ reservations, isLoading, error }: Props) => {
                 </Td>
                 <Td color={reservation.canceled_at ? "red.400" : "green.400"}>
                   {reservation.canceled_at || "Not Canceled"}
+                </Td>
+                <Td>
+                  {reservation.status === "reserved" && (
+                    <Button colorScheme="green" mr={3} 
+                    onClick={() => {
+                      borrowReservation(reservation);
+                    }}>
+                      {isBorrowing ? "Borrowing..." : "Borrow"}
+                    </Button>
+                  )}
+
+                  <Button colorScheme="red" 
+                  onClick={() => {
+                    deleteReservation(reservation);
+                  }}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
                 </Td>
               </Tr>
             ))}

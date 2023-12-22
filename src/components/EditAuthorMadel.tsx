@@ -144,7 +144,7 @@ const EditAuthorModal = ({ author }: Props) => {
 
             <FormControl mt={4}>
               <FormLabel>Biography</FormLabel>
-              <Textarea
+              <Textarea height="100px"
                 {...register("biography")}
                 id="biography"
                 placeholder={author.biography}
