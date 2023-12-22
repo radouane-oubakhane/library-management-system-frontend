@@ -7,6 +7,7 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import router from "./routes";
 import theme from "./theme.ts";
+import AuthProvider from "./providers/AuthProvider.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +22,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <RouterProvider router={router} />
+        <AuthProvider
+          onLogin={() => router.navigate("/")}
+          onLogout={() => router.navigate("/")}
+          onRegister={() => router.navigate("/")}
+        >
+          <RouterProvider router={router} />
+        </AuthProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ChakraProvider>

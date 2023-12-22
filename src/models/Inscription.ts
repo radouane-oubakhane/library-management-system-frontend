@@ -11,4 +11,5 @@ export default interface Inscription {
     date_of_birth: string;
     status: string;
     picture: string;
+    password: string;
 }

@@ -11,6 +11,9 @@ import AuthorsPage from "./pages/AuthorsPage";
 import MembersPage from "./pages/MembersPage";
 import ReservationsPage from "./pages/ReservationsPage";
 import BorrowsPage from "./pages/BorrowsPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
       {
         path: "authors/",
         children: [
@@ -32,10 +37,6 @@ const router = createBrowserRouter([
           { index: true, element: <CategoriesPage /> },
           { path: ":categoryId", element: <CategoryDetailPage /> },
         ],
-      },
-      {
-        path: "inscriptions/",
-        children: [{ index: true, element: <InscriptionsPage /> }],
       },
       {
         path: "books/",
@@ -55,7 +56,16 @@ const router = createBrowserRouter([
       {
         path: "borrows/",
         children: [{ index: true, element: <BorrowsPage /> }],
-      }
+      },
+    ],
+  },
+  {
+    element: <PrivateRoutes />,
+    children: [
+      {
+        path: "inscriptions/",
+        children: [{ index: true, element: <InscriptionsPage /> }],
+      },
     ],
   },
 ]);
