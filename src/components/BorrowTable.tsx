@@ -9,10 +9,14 @@ import {
   Tr,
   Text,
   Skeleton,
+  Button,
+  WrapItem,
 } from "@chakra-ui/react";
 import BookModal from "./BookModal";
 import MemberModal from "./MemberModal";
 import Borrow from "../models/Borrow";
+import useReturnedBorrow from "../hooks/borrow/useReturnedBorrow";
+import useOverdueBorrow from "../hooks/borrow/useOverdueBorrow";
 
 interface Props {
   borrows?: Borrow[];
@@ -21,6 +25,9 @@ interface Props {
 }
 
 const BorrowTable = ({ borrows, isLoading, error }: Props) => {
+  const { mutate: mutateReturnedBorrows } = useReturnedBorrow();
+  const { mutate: mutateOverdueBorrows } = useOverdueBorrow();
+
   if (error)
     return (
       <Text fontSize="2xl" textAlign="center">
@@ -76,11 +83,12 @@ const BorrowTable = ({ borrows, isLoading, error }: Props) => {
         <Table variant="striped">
           <Thead>
             <Tr>
-            <Th>Member</Th>
-                <Th>Book</Th>
-                <Th>Borrowed Date</Th>
-                <Th>Status</Th>
-                <Th>return Date</Th>
+              <Th>Member</Th>
+              <Th>Book</Th>
+              <Th>Borrowed Date</Th>
+              <Th>Status</Th>
+              <Th>return Date</Th>
+              <Th>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -89,13 +97,35 @@ const BorrowTable = ({ borrows, isLoading, error }: Props) => {
                 <Td>
                   <MemberModal member={borrow.member} />
                 </Td>
-                <Td><BookModal book={borrow.book} /></Td>
-                <Td>{borrow.borrow_date}</Td>
-                <Td color={statusColor(borrow.status)}>
-                  {borrow.status}
+                <Td>
+                  <BookModal book={borrow.book} />
                 </Td>
+                <Td>{borrow.borrow_date}</Td>
+                <Td color={statusColor(borrow.status)}>{borrow.status}</Td>
                 <Td color={borrow.return_date ? "red.400" : "green.400"}>
                   {borrow.return_date || "Not Canceled"}
+                </Td>
+                <Td>
+                  <WrapItem>
+                    {(borrow.status === "borrowed" ||
+                      borrow.status === "overdue") && (
+                      <Button
+                        mr={2}
+                        onClick={() => mutateReturnedBorrows(borrow)}
+                        colorScheme="green"
+                      >
+                        Returned
+                      </Button>
+                    )}
+                    {borrow.status === "borrowed" && (
+                      <Button
+                        onClick={() => mutateOverdueBorrows(borrow)}
+                        colorScheme="red"
+                      >
+                        Overdue
+                      </Button>
+                    )}
+                  </WrapItem>
                 </Td>
               </Tr>
             ))}
@@ -107,3 +137,5 @@ const BorrowTable = ({ borrows, isLoading, error }: Props) => {
 };
 
 export default BorrowTable;
+
+

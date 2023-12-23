@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import { ExpandableText } from "../components/ExpandableText";
-import AuthorInfo from "../components/AuthorInfo";
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
 import BookCard from "../components/BookCard";
 import { useState } from "react";
