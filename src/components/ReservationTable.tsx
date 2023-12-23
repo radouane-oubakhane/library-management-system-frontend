@@ -16,6 +16,7 @@ import BookModal from "./BookModal";
 import MemberModal from "./MemberModal";
 import useDeleteReservation from "../hooks/reservation/useDeleteReservation";
 import useBorrowReservation from "../hooks/reservation/useBorrowReservation";
+import BorrowReservationModel from "./BorrowReservationModel";
 
 interface Props {
   reservations?: Reservation[];
@@ -80,6 +81,7 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                   <Td>
                     <Skeleton height="20px" />
                   </Td>
+                  
                 </Tr>
               ))}
             </Tbody>
@@ -119,12 +121,7 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                 </Td>
                 <Td>
                   {reservation.status === "reserved" && (
-                    <Button colorScheme="green" mr={3} 
-                    onClick={() => {
-                      borrowReservation(reservation);
-                    }}>
-                      {isBorrowing ? "Borrowing..." : "Borrow"}
-                    </Button>
+                    <BorrowReservationModel reservation={reservation} key={reservation.id} />
                   )}
 
                   <Button colorScheme="red" 
@@ -132,7 +129,7 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                     deleteReservation(reservation);
                   }}
                   >
-                    {isDeleting ? "Deleting..." : "Delete"}
+                    Delete
                   </Button>
                 </Td>
               </Tr>

@@ -2,23 +2,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../../services/api-client";
 import Reservation from "../../models/Reservation";
 
-interface DeleteMemberContext {
+interface BorrowReservationContext {
   member: Reservation[];
 }
+
+interface BorrowReservationRequest {
+  return_date: string;
+}
+
 
 const useBorrowReservation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, Reservation, DeleteMemberContext>({
+  return useMutation<BorrowReservationRequest, Error, Reservation, BorrowReservationContext>({
     mutationFn: (reservation: Reservation) => apiClient
-                                .put(`reservations/${reservation.id}/borrow`)
+                                .put<BorrowReservationRequest>(`reservations/${reservation.id}/borrow`, { return_date: reservation.return_date})
                                 .then((res) => res.data),
 
     onMutate: (reservation: Reservation) => {
       const previousReservations = queryClient.getQueryData<Reservation[]>(["reservations"]);
 
       queryClient.setQueryData<Reservation[]>(["reservations"], (old) => {
-        return old?.map((m) => m.id == reservation.id ? {...m, status: "borrowed"} : m) || [];
+        return old?.map((r) => r.id == reservation.id ? {...r, status: "borrowed"} : r) || [];
       });
 
       return { previousReservations };

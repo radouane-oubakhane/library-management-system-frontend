@@ -10,6 +10,7 @@ export default interface Reservation {
     canceled_at: string | null;
     expired_at: string | null;
     status: string;
+    return_date?: string;
 }
 
 

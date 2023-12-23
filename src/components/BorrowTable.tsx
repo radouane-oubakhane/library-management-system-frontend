@@ -44,16 +44,6 @@ const BorrowTable = ({ borrows, isLoading, error }: Props) => {
       {isLoading && (
         <TableContainer>
           <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Member</Th>
-                <Th>Book</Th>
-                <Th>Borrowed Date</Th>
-                <Th>Expiration Date</Th>
-                <Th>Status</Th>
-                <Th>return Date</Th>
-              </Tr>
-            </Thead>
             <Tbody>
               {skeletons.map((_, index) => (
                 <Tr key={index}>
