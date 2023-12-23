@@ -14,6 +14,7 @@ import BorrowsPage from "./pages/BorrowsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoutes from "./PrivateRoutes";
+import BookDetailPage from "./pages/BookDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
         path: "books/",
         children: [
           { index: true, element: <BooksPage /> },
-          { path: ":bookId", element: <AuthorDetailPage /> },
+          { path: ":bookId", element: <BookDetailPage /> },
         ],
       },
       {

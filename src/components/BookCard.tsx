@@ -12,7 +12,7 @@ import Book from "../models/Book";
 import useAddReservation from "../hooks/reservation/useAddReservation";
 import useAuth from "../hooks/auth/useAuth";
 import ReservationRequest from "../models/ReservationRequest";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   book: Book;
@@ -43,15 +43,17 @@ const BookCard = ({ book }: Props) => {
             textAlign="start"
             _hover={{ color: "blue.400" }}
           >
-            {book.title}
+            <Link to={`/books/${book.id}`}>{book.title}</Link>
           </Heading>
           <HStack justifyContent="space-between">
             <Text as="abbr" textAlign="start">
               {book.author_first_name} {book.author_last_name}
             </Text>
-            <Badge variant="solid" colorScheme="purple">
-              {book.category?.name}
-            </Badge>
+            <Link to={`/categories/${book.category?.id}`}>
+              <Badge variant="solid" colorScheme="purple">
+                {book.category?.name}
+              </Badge>
+            </Link>
           </HStack>
         </VStack>
         <Button

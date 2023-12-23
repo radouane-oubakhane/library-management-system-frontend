@@ -4,7 +4,7 @@ import apiClient from "../../services/api-client";
 
 
 
-const useCategoryBooks = (categoryId: string) => useQuery<Book[], Error>({
+const useCategoryBooks = (categoryId: string | undefined) => useQuery<Book[], Error>({
     queryKey: ["categories", categoryId, "books"],
     queryFn: () => apiClient
         .get<Book[]>("/categories/" + categoryId + "/books")
