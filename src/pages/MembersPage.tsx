@@ -4,9 +4,16 @@ import InscriptionCategoryCardContainer from "../components/InscriptionCategoryC
 import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCardSkeleton";
 import MemberCard from "../components/MemberCard";
 import HeaderPage from "../components/HeaderPage";
+import { useState } from "react";
 
 const MembersPage = () => {
     const { data: members, isLoading, error } = useMembers();
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const filteredMembers = searchTerm === ""
+    ? members
+    : members?.filter(member => member.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) || member.last_name?.toLowerCase().includes(searchTerm.toLowerCase()));
+
     
     if (error)
   return (
@@ -18,7 +25,7 @@ const MembersPage = () => {
   const skeletons = Array(12).fill(0);
   return (
     <>
-    <HeaderPage title="Members" ButtonComponent={Button} />
+    <HeaderPage title="Members" ButtonComponent={Button} searching setSearchTerm={setSearchTerm}/>
     <SimpleGrid
     columns={{ lg: 1, xl:2 }}
     spacing={10}
@@ -35,7 +42,7 @@ const MembersPage = () => {
     }
 
     {
-      members?.map(member => (
+      filteredMembers?.map(member => (
         <MemberCard key={member.id} member={member} />
       ))
     }

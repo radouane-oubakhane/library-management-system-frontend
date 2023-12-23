@@ -11,12 +11,16 @@ import {
   VStack,
   Text,
   Skeleton,
+  HStack,
+  Box,
 } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import { ExpandableText } from "../components/ExpandableText";
 import AuthorInfo from "../components/AuthorInfo";
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
 import BookCard from "../components/BookCard";
+import { useState } from "react";
+import SearchInput from "../components/SearchInput";
 
 const AuthorDetailPage = () => {
   const { authorId } = useParams<{ authorId: string }>();
@@ -30,6 +34,15 @@ const AuthorDetailPage = () => {
     isLoading: booksIsLoading,
     error: booksError,
   } = useAuthorBooks(authorId!);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredBooks =
+    searchTerm === ""
+      ? books
+      : books?.filter((book) =>
+          book.title?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
   if (authorIsLoading) return <AuthorDetailPageSkeleton />;
 
@@ -90,15 +103,25 @@ const AuthorDetailPage = () => {
           <Divider mt="30px" />
         </GridItem>
         <GridItem area="cast">
-          <Heading as="h2" size="lg" p={5}>
+        <HStack
+        spacing={10}
+        justify="space-between"
+        align="center"
+        px={"20px"}
+      >
+          <Heading as="h2" size="lg">
             {booksIsLoading ? (
               <Skeleton height="30px" width="400px" />
             ) : (
               `Books by ${author?.first_name} ${author?.last_name}`
             )}
           </Heading>
+          <Box flex={1}>
+          <SearchInput setSearchTerm={setSearchTerm} />
+        </Box>
+      </HStack>
           <BookGrid
-            books={books}
+            books={filteredBooks}
             isLoading={booksIsLoading}
             error={booksError}
             BookCardComponent={BookCard}

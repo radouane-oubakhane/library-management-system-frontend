@@ -19,7 +19,7 @@ const SearchInput = ({ setSearchTerm }: Props) => {
         ref={searchTermRef}
         borderRadius={20}
         variant="filled"
-        placeholder="Search for a movie, tv show, person..."
+        placeholder="Search for a book..."
         onChange={handleSearch}
       />
     </Box>
@@ -27,6 +27,5 @@ const SearchInput = ({ setSearchTerm }: Props) => {
 };
 
 export default SearchInput;
-
 
 

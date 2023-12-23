@@ -1,9 +1,19 @@
 import { useParams } from "react-router-dom";
 import useCategoryBooks from "../hooks/category/useCategryBooks";
 import useCategory from "../hooks/category/useCategory";
-import { Box, Text, Flex, Heading, Skeleton, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Heading,
+  Skeleton,
+  Stack,
+  HStack,
+} from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import BookCard from "../components/BookCard";
+import { useState } from "react";
+import SearchInput from "../components/SearchInput";
 
 const CategoryDetailPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -17,6 +27,15 @@ const CategoryDetailPage = () => {
     isLoading: booksIsLoading,
     error: booksError,
   } = useCategoryBooks(categoryId!);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredBooks =
+    searchTerm === ""
+      ? books
+      : books?.filter((book) =>
+          book.title?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
   if (categoryError)
     return (
@@ -66,11 +85,30 @@ const CategoryDetailPage = () => {
           <Text>{category?.description}</Text>
         </Flex>
       </Box>
-      <Heading as="h2" size="lg" p={5}>
-        {booksIsLoading ? <Skeleton height="30px" width="400px" /> : "Books in this category"}
-       
-      </Heading>
-      <BookGrid books={books} isLoading={booksIsLoading} error={booksError} BookCardComponent={BookCard} />
+      <HStack
+        spacing={10}
+        justify="space-between"
+        align="center"
+        px={"20px"}
+      >
+        <Heading as="h2" size="lg">
+          {booksIsLoading ? (
+            <Skeleton height="30px" width="400px" />
+          ) : (
+            "Books in this category"
+          )}
+        </Heading>
+        <Box flex={1}>
+          <SearchInput setSearchTerm={setSearchTerm} />
+        </Box>
+      </HStack>
+
+      <BookGrid
+        books={filteredBooks}
+        isLoading={booksIsLoading}
+        error={booksError}
+        BookCardComponent={BookCard}
+      />
     </>
   );
 };
