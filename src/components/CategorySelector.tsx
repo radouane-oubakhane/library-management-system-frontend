@@ -1,6 +1,7 @@
 import { Heading, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import Category from "../models/Category"
 import { Link } from "react-router-dom"
+import useAuth from "../hooks/auth/useAuth"
 
 interface Props {
     categories?: Category[]
@@ -8,11 +9,12 @@ interface Props {
 
 
 const CategorySelector = ({ categories }: Props) => {
+  const {user} = useAuth();
   return (
     <Menu>
       <MenuButton>
         <Heading as="b" size="sm" whiteSpace="nowrap">
-          Categories
+          {user?.is_admin ? "Books by category" : "Categories"}
         </Heading>
       </MenuButton>
       <MenuList>

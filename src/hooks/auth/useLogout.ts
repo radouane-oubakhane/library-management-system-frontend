@@ -1,10 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../../services/api-client";
 
 
 
 
 const useLogin = (onRegisterSuccess: () => void, onError: (error: Error) => void) => {
+  const queryClient = useQueryClient();
+
 
     return useMutation<void, Error, void>({
       mutationFn: () =>
@@ -13,6 +15,7 @@ const useLogin = (onRegisterSuccess: () => void, onError: (error: Error) => void
         localStorage.removeItem("access_token");
         localStorage.removeItem("user");
         onRegisterSuccess();
+        queryClient.invalidateQueries();
       },
       onError: (error) => {
         onError(error);

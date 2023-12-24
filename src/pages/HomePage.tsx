@@ -5,15 +5,22 @@ import HeaderPage from "../components/HeaderPage";
 import useBooks from "../hooks/book/useBooks";
 import DiscoveryHeader from "../components/DiscoveryHeader";
 import { useState } from "react";
+import useAuth from "../hooks/auth/useAuth";
+import AdminDashboard from "../components/AdminDashboard";
 
 function HomePage() {
   const { data: books, error, isLoading } = useBooks();
   const [searchTerm, setSearchTerm] = useState('');
+  const {user} = useAuth();
 
 
   const filteredBooks = searchTerm === ''
   ? books
   : books?.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  if (user?.is_admin) {
+    return <AdminDashboard />
+  }
 
 
   return (

@@ -11,12 +11,14 @@ import {
   Skeleton,
   Button,
   WrapItem,
+  VStack,
 } from "@chakra-ui/react";
 import BookModal from "./BookModal";
 import MemberModal from "./MemberModal";
 import Borrow from "../models/Borrow";
 import useReturnedBorrow from "../hooks/borrow/useReturnedBorrow";
 import useOverdueBorrow from "../hooks/borrow/useOverdueBorrow";
+import useDeleteBorrow from "../hooks/borrow/useDeleteBorrow";
 
 interface Props {
   borrows?: Borrow[];
@@ -27,6 +29,9 @@ interface Props {
 const BorrowTable = ({ borrows, isLoading, error }: Props) => {
   const { mutate: mutateReturnedBorrows } = useReturnedBorrow();
   const { mutate: mutateOverdueBorrows } = useOverdueBorrow();
+  const {
+    mutate: mutateDeleteBorrows,
+  } = useDeleteBorrow();
 
   if (error)
     return (
@@ -120,11 +125,18 @@ const BorrowTable = ({ borrows, isLoading, error }: Props) => {
                     {borrow.status === "borrowed" && (
                       <Button
                         onClick={() => mutateOverdueBorrows(borrow)}
-                        colorScheme="red"
+                        colorScheme="gray"
                       >
                         Overdue
                       </Button>
                     )}
+                    <Button
+                      ml={2}
+                      onClick={() => mutateDeleteBorrows(borrow)}
+                      colorScheme="red"
+                    >
+                      Delete
+                    </Button>
                   </WrapItem>
                 </Td>
               </Tr>

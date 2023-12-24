@@ -27,6 +27,10 @@ const useEditBook = () => {
 
     onSuccess: (savedBook, newBook) => {
       queryClient.invalidateQueries(["reservations"]);
+      ["categories", "authors"].forEach((key) => {
+        queryClient.invalidateQueries([key]);
+      } 
+      );
     },
 
     onError: (error, book, context) => {

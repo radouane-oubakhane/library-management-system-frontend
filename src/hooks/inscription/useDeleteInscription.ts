@@ -23,6 +23,10 @@ const useDeleteInscription = () => {
 
       return { previousInscriptions };
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["inscriptions"]);
+      queryClient.invalidateQueries(["profile"]);
+    },
 
     onError: (error, book, context) => {
       if (!context) return;

@@ -9,7 +9,7 @@ const useCategoryBooks = (categoryId: string | undefined) => useQuery<Book[], Er
     queryFn: () => apiClient
         .get<Book[]>("/categories/" + categoryId + "/books")
         .then(response => response.data),
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
+    staleTime: 1000 * 60 * 60, // 1 hour
 });
 
 

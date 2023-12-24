@@ -31,6 +31,7 @@ const useBorrowReservation = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["reservations"]);
+      queryClient.invalidateQueries(["borrows"]);
     },
 
     onError: (err, reservation, context) => {

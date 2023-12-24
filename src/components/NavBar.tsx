@@ -109,7 +109,7 @@ const NavBar = () => {
               </Heading>
             </Link>
           )}
-          {user?.is_admin && (
+          
             <Link to="/books">
               <Heading
                 as="b"
@@ -121,7 +121,7 @@ const NavBar = () => {
                 Books
               </Heading>
             </Link>
-          )}
+          
           {user?.is_admin && (
             <Link to="/authors">
               <Heading
@@ -148,7 +148,7 @@ const NavBar = () => {
               </Heading>
             </Link>
           )}
-          {user?.is_admin && (
+          
             <Link to="/reservations">
               <Heading
                 as="b"
@@ -160,8 +160,8 @@ const NavBar = () => {
                 Reservations
               </Heading>
             </Link>
-          )}
-          {user?.is_admin && (
+          
+          
             <Link to="/borrows">
               <Heading
                 as="b"
@@ -173,7 +173,7 @@ const NavBar = () => {
                 Borrows
               </Heading>
             </Link>
-          )}
+          
         </HStack>
         <Spacer />
 

@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import BorrowTable from "../components/BorrowTable";
 import HeaderPage from "../components/HeaderPage";
-import useBorrows from "../hooks/category/useBorrows";
+import useBorrows from "../hooks/borrow/useBorrows";
 import { useState } from "react";
 import Borrow from "../../models/Borrow";
 

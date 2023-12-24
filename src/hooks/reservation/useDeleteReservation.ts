@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../../services/api-client";
 import Reservation from "../../models/Reservation";
 
-interface DeleteMemberContext {
+interface DeleteReservationContext {
   member: Reservation[];
 }
 
 const useDeleteReservation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, Reservation, DeleteMemberContext>({
+  return useMutation<void, Error, Reservation, DeleteReservationContext>({
     mutationFn: (reservation: Reservation) => apiClient
                                 .delete(`/reservations/${reservation.id}`)
                                 .then((res) => res.data),

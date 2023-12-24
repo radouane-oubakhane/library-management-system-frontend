@@ -26,6 +26,10 @@ const useDeleteBook = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["reservations"]);
+      ["categories", "authors"].forEach((key) => {
+        queryClient.invalidateQueries([key]);
+      } 
+      );
     },
 
    

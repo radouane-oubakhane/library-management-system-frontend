@@ -14,6 +14,8 @@ import BookGrid from "../components/BookGrid";
 import BookCard from "../components/BookCard";
 import { useState } from "react";
 import SearchInput from "../components/SearchInput";
+import useAuth from "../hooks/auth/useAuth";
+import AdminBookCard from "../components/AdminBookCard";
 
 const CategoryDetailPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -27,6 +29,7 @@ const CategoryDetailPage = () => {
     isLoading: booksIsLoading,
     error: booksError,
   } = useCategoryBooks(categoryId!);
+  const {user} = useAuth();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -107,7 +110,7 @@ const CategoryDetailPage = () => {
         books={filteredBooks}
         isLoading={booksIsLoading}
         error={booksError}
-        BookCardComponent={BookCard}
+        BookCardComponent={user?.is_admin ? AdminBookCard : BookCard}
       />
     </>
   );

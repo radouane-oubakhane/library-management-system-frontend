@@ -21,6 +21,8 @@ import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
 import BookCard from "../components/BookCard";
 import { useState } from "react";
 import SearchInput from "../components/SearchInput";
+import useAuth from "../hooks/auth/useAuth";
+import AdminBookCard from "../components/AdminBookCard";
 
 const AuthorDetailPage = () => {
   const { authorId } = useParams<{ authorId: string }>();
@@ -34,6 +36,7 @@ const AuthorDetailPage = () => {
     isLoading: booksIsLoading,
     error: booksError,
   } = useAuthorBooks(authorId!);
+  const {user} = useAuth();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -124,7 +127,7 @@ const AuthorDetailPage = () => {
             books={filteredBooks}
             isLoading={booksIsLoading}
             error={booksError}
-            BookCardComponent={BookCard}
+            BookCardComponent={user?.is_admin ? AdminBookCard : BookCard}
           />
         </GridItem>
       </Grid>

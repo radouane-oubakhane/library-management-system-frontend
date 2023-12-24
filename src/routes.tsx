@@ -47,10 +47,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "members/",
-        children: [{ index: true, element: <MembersPage /> }],
-      },
-      {
         path: "reservations/",
         children: [{ index: true, element: <ReservationsPage /> }],
       },
@@ -66,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "inscriptions/",
         children: [{ index: true, element: <InscriptionsPage /> }],
+      },
+      {
+        path: "members/",
+        children: [{ index: true, element: <MembersPage /> }],
       },
     ],
   },
