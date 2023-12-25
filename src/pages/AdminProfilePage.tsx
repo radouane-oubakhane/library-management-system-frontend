@@ -1,6 +1,6 @@
 
 import { Box, Heading, Text, Image, SimpleGrid} from '@chakra-ui/react';
-import useAdmineProfile from '../hooks/userProfile/useAdmineProfile';
+import useAdmineProfile from '../hooks/profile/useAdmineProfile';
 import AuthorDetailPageSkeleton from '../components/AuthorDetailPageSkeleton';
 
 

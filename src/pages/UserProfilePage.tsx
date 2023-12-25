@@ -1,11 +1,11 @@
 import { Box, Heading, Text, Image, Tabs, TabList, Tab, TabPanels, TabPanel, Button } from '@chakra-ui/react';
 
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
-import useProfileUser from "../hooks/userProfile/useUserProfile";
+import useProfileUser from "../hooks/profile/useUserProfile";
 
 import BorrowTable from './BorrowTable';
 import ReservationTable from './ReservationTable';
-import { Link } from 'react-router-dom';
+import EditProfileModal from '../components/EditProfileModal';
 
 const ProfileUserPage = () => {
   const {
@@ -43,7 +43,7 @@ const ProfileUserPage = () => {
           <Text>Phone: {phone}</Text>
           <Text>Address: {address}</Text>
           <Button onClick={handleUpdateProfile} colorScheme="blue" mt={4} mr={2}>
-        <Link to={`/edit-profile/${id}`}>Modify Profile</Link>
+        <EditProfileModal profile={profile}/>
       </Button>
       <Button colorScheme="red" mt={4} onClick={handleDeleteProfile}>
         Delete Profile
