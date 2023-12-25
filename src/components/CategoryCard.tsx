@@ -18,7 +18,8 @@ const CategoryCard = ({ category }: Props) => {
   <Image
     objectFit='cover'
     maxW={{ base: '100%', sm: '200px' }}
-    src='https://www.eecs.mit.edu/wp-content/uploads/2021/06/compscihero-1024x545.jpg'
+    src={`http://127.0.0.1:8000/storage/categories/${category.picture}`}
+
     alt={category.name + ' picture'}
   />
 

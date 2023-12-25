@@ -10,7 +10,6 @@ const useBook = (bookId: string) => useQuery<Book, Error>({
     queryFn: () => apiClient
                         .get<Book>(`/books/${bookId}`)
                         .then((res) => res.data),
-    staleTime: 1000 * 60 * 60 , // 1 hour
 });
     
 

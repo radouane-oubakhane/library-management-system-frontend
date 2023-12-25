@@ -1,16 +1,16 @@
-import AdminProfile from "../../models/admin/AdminProfile";
+import Profile from "../../models/profile";
 import apiClient from "../../services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
 
 
 
-const useAdminProfile = () => useQuery<AdminProfile, Error>({
+const useMemberProfile = () => useQuery<Profile, Error>({
     queryKey: ["profile"],
     queryFn: () => apiClient
-                        .get<AdminProfile>('/profile')
+                        .get<Profile>('/profile')
                         .then((res) => res.data),
 });
 
 
-export default useAdminProfile;
+export default useMemberProfile;

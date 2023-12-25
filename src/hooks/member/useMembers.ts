@@ -12,7 +12,6 @@ const useMembers = () => useQuery<Member[], Error>({
     queryFn : () => apiClient
                         .get<Member[]>('/members')
                         .then((response) => response.data),
-    staleTime: 1000 * 60 // 1 minute
 
 });
 

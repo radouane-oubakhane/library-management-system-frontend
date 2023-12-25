@@ -12,7 +12,6 @@ const useAuthor = (authorId: string) => useQuery<Author, Error>({
     queryFn: () => apiClient
         .get<Author>(`/authors/${authorId}`)
         .then(response => response.data),
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
 })
 
 

@@ -12,23 +12,27 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import useMemberProfile from "../hooks/profile/useMemberProfile";
+import useBorrowReservation from "../hooks/reservation/useBorrowReservation";
 import useDeleteReservation from "../hooks/reservation/useDeleteReservation";
 import Reservation from "../models/Reservation";
 import BookModal from "./BookModal";
+import BorrowReservationModel from "./BorrowReservationModel";
 import HeaderPage from "./HeaderPage";
+import MemberModal from "./MemberModal";
+import useBorrows from "../hooks/borrow/useBorrows";
+import useReservations from "../hooks/reservation/useReservations";
 
-const ReservationTable = () => {
+
+
+const AdminReservationTable = () => {
   const { mutate: deleteReservation, isLoading: isDeleting } =
-    useDeleteReservation();
+  useDeleteReservation();
 
+const { mutate: borrowReservation, isLoading: isBorrowing } =
+  useBorrowReservation();
 
-    const {
-    data: memberProfile,
-    isLoading: isLoadingProfile,
-    error: errorProfile,
-  } = useMemberProfile();
-
+  const {data: reservations, isLoading, error} = useReservations();
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
 
@@ -42,44 +46,68 @@ const ReservationTable = () => {
     { name: "Clear", value: "", color: "gray" },
   ];
 
+
   if (filter === "" && searchTerm === "") {
-    filteredReservations = memberProfile?.reservation;
+    filteredReservations = reservations;
   } else if (filter !== "" && searchTerm === "") {
-    filteredReservations = memberProfile?.reservation.filter(
+    filteredReservations = reservations?.filter(
       (reservation) => reservation.status === filter
     );
-  } else if (filter === "" && searchTerm !== "") {
-    filteredReservations = memberProfile?.reservation.filter(
-      (reservation) =>
-        reservation.book.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  } else {
-    filteredReservations = memberProfile?.reservation.filter(
-      (reservation) =>
-        reservation.status === filter &&
-        (reservation.member.first_name
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-          reservation.member.last_name
+  }
+    else if (filter === "" && searchTerm !== "") {
+        filteredReservations = reservations?.filter(
+        (reservation) =>
+            reservation.member.first_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          reservation.book.title
+            reservation.member.last_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+            reservation.book.title
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) 
+        );
+    } else {
+        filteredReservations = reservations?.filter(
+        (reservation) =>
+            reservation.status === filter &&
+            (reservation.member.first_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+            reservation.member.last_name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+            reservation.book.title
             .toLowerCase()
             .includes(searchTerm.toLowerCase()))
-    );
-  }
 
-  const onSelectedFilter = (filter: string) => {
-    setFilter(filter);
-    if (filter === "") {
-      setSearchTerm("");
+        );
     }
-  };
 
-  if (errorProfile)
+
+    const onSelectedFilter = (filter: string) => {
+        setFilter(filter);
+        if (filter === "") {
+          setSearchTerm("");
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if (error)
     return (
       <Text fontSize="2xl" textAlign="center">
-        {errorProfile.message}
+        {error.message}
       </Text>
     );
 
@@ -109,7 +137,7 @@ const ReservationTable = () => {
         filters={filters}
         setFilter={onSelectedFilter}
       />
-      {isLoadingProfile && (
+      {isLoading && (
         <TableContainer>
           <Table variant="simple">
             <Tbody>
@@ -133,6 +161,7 @@ const ReservationTable = () => {
                   <Td>
                     <Skeleton height="20px" />
                   </Td>
+                  
                 </Tr>
               ))}
             </Tbody>
@@ -144,6 +173,7 @@ const ReservationTable = () => {
         <Table variant="striped">
           <Thead>
             <Tr>
+              <Th>Member</Th>
               <Th>Book</Th>
               <Th>Reservation Date</Th>
               <Th>Expiration Date</Th>
@@ -156,6 +186,9 @@ const ReservationTable = () => {
             {filteredReservations?.map((reservation) => (
               <Tr key={reservation.id}>
                 <Td>
+                  <MemberModal member={reservation.member} />
+                </Td>
+                <Td>
                   <BookModal book={reservation.book} />
                 </Td>
                 <Td>{reservation.reserved_at}</Td>
@@ -167,11 +200,14 @@ const ReservationTable = () => {
                   {reservation.canceled_at || "Not Canceled"}
                 </Td>
                 <Td>
-                  <Button
-                    colorScheme="red"
-                    onClick={() => {
-                      deleteReservation(reservation);
-                    }}
+                  {reservation.status === "reserved" && (
+                    <BorrowReservationModel reservation={reservation} key={reservation.id} />
+                  )}
+
+                  <Button colorScheme="red" 
+                  onClick={() => {
+                    deleteReservation(reservation);
+                  }}
                   >
                     Delete
                   </Button>
@@ -185,4 +221,4 @@ const ReservationTable = () => {
   );
 };
 
-export default ReservationTable;
+export default AdminReservationTable;

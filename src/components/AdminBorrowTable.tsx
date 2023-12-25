@@ -11,27 +11,29 @@ import {
   Skeleton,
   Button,
   WrapItem,
-  VStack,
 } from "@chakra-ui/react";
 import BookModal from "./BookModal";
 import MemberModal from "./MemberModal";
+import Borrow from "../models/Borrow";
 import useReturnedBorrow from "../hooks/borrow/useReturnedBorrow";
 import useOverdueBorrow from "../hooks/borrow/useOverdueBorrow";
 import useDeleteBorrow from "../hooks/borrow/useDeleteBorrow";
-import HeaderPage from "./HeaderPage";
-import useMemberProfile from "../hooks/profile/useMemberProfile";
+import useBorrows from "../hooks/borrow/useBorrows";
 import { useState } from "react";
-import Borrow from "../models/Borrow";
+import HeaderPage from "./HeaderPage";
 
 
 
-const BorrowTable = () => {
+const AdminBorrowTable = () => {
+  const { mutate: mutateReturnedBorrows } = useReturnedBorrow();
+  const { mutate: mutateOverdueBorrows } = useOverdueBorrow();
+  const {
+    mutate: mutateDeleteBorrows,
+  } = useDeleteBorrow();
 
+  
 
-
-  const {data: memberProfile, isLoading: isLoadingProfile, error: errorProfile} = useMemberProfile();
-
-
+  const { data: borrows, error, isLoading } = useBorrows();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
 
@@ -45,20 +47,30 @@ const BorrowTable = () => {
   ];
 
   if (filter === "" && searchTerm === "") {
-    filteredBorrows = memberProfile?.borrow;
+    filteredBorrows = borrows;
   } else if (filter !== "" && searchTerm === "") {
-    filteredBorrows = memberProfile?.borrow?.filter(
+    filteredBorrows = borrows?.filter(
       (borrow) => borrow.status === filter
     );
   } else if (filter === "" && searchTerm !== "") {
-    filteredBorrows = memberProfile?.borrow?.filter(
+    filteredBorrows = borrows?.filter(
       (borrow) =>
+        borrow.member.first_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        borrow.member.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   } else {
-    filteredBorrows = memberProfile?.borrow?.filter(
+    filteredBorrows = borrows?.filter(
       (borrow) =>
-        borrow.status === filter && (
+        borrow.status === filter &&
+        (borrow.member.first_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+          borrow.member.last_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }
@@ -71,11 +83,10 @@ const BorrowTable = () => {
     }
   }
 
-
-  if (errorProfile)
+  if (error)
     return (
       <Text fontSize="2xl" textAlign="center">
-        {errorProfile.message}
+        {error.message}
       </Text>
     );
 
@@ -102,7 +113,7 @@ const BorrowTable = () => {
         filters={filters}
         setFilter={onSelectedFilter}
       />
-      {isLoadingProfile && (
+      {isLoading && (
         <TableContainer>
           <Table variant="simple">
             <Tbody>
@@ -137,17 +148,20 @@ const BorrowTable = () => {
         <Table variant="striped">
           <Thead>
             <Tr>
-             
+              <Th>Member</Th>
               <Th>Book</Th>
               <Th>Borrowed Date</Th>
               <Th>Status</Th>
               <Th>return Date</Th>
+              <Th>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>
             {filteredBorrows?.map((borrow) => (
               <Tr key={borrow.id}>
-                
+                <Td>
+                  <MemberModal member={borrow.member} />
+                </Td>
                 <Td>
                   <BookModal book={borrow.book} />
                 </Td>
@@ -156,7 +170,35 @@ const BorrowTable = () => {
                 <Td color={borrow.return_date ? "red.400" : "green.400"}>
                   {borrow.return_date || "Not Canceled"}
                 </Td>
-                
+                <Td>
+                  <WrapItem>
+                    {(borrow.status === "borrowed" ||
+                      borrow.status === "overdue") && (
+                      <Button
+                        mr={2}
+                        onClick={() => mutateReturnedBorrows(borrow)}
+                        colorScheme="green"
+                      >
+                        Returned
+                      </Button>
+                    )}
+                    {borrow.status === "borrowed" && (
+                      <Button
+                        onClick={() => mutateOverdueBorrows(borrow)}
+                        colorScheme="gray"
+                      >
+                        Overdue
+                      </Button>
+                    )}
+                    <Button
+                      ml={2}
+                      onClick={() => mutateDeleteBorrows(borrow)}
+                      colorScheme="red"
+                    >
+                      Delete
+                    </Button>
+                  </WrapItem>
+                </Td>
               </Tr>
             ))}
           </Tbody>
@@ -166,6 +208,6 @@ const BorrowTable = () => {
   );
 };
 
-export default BorrowTable;
+export default AdminBorrowTable;
 
 

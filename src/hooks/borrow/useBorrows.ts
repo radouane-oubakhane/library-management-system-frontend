@@ -12,7 +12,6 @@ const useBorrows = () => useQuery<Borrow[], Error>({
     queryFn : () => apiClient
                         .get<Borrow[]>('/borrows')
                         .then((response) => response.data),
-    staleTime: 1000 * 60 * 5, // 5 minutes
 
 });
 

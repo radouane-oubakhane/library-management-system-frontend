@@ -10,12 +10,13 @@ const useAddCategory = () => {
   const queryClient = useQueryClient();
 
   return useMutation<Category, Error, Category, AddCategoryContext>({
-    mutationFn: (category: Category) =>
-      apiClient.post(`/categories`, category).then((res) => res.data),
+    mutationFn: (category: Category) => {
+      apiClient.post<Category>(`/categories`, category).then((res) => res.data)},
 
     onMutate: (newCategory: Category) => {
       const previousCategories =
         queryClient.getQueryData<Category[]>(["categories"]) || [];
+        
 
       queryClient.setQueryData<Category[]>(["categories"], (old = []) => [
         ...old, newCategory

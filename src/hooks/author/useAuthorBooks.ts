@@ -14,7 +14,6 @@ const useAuthor = (authorId: string) => useQuery<Book[], Error>({
     queryFn: () => apiClient
         .get<Book[]>(`/authors/${authorId}/books`)
         .then(response => response.data),
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
 })
 
 

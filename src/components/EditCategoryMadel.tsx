@@ -1,5 +1,6 @@
 import {
-  Button,
+  Box,
+    Button,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -24,6 +25,15 @@ interface Props {
   category: Category;
 }
 
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+
+const fileSchema = z
+  .any()
+  .refine((file) => SUPPORTED_FORMATS.includes(file[0]?.type), {
+    message:
+      "Unsupported file format. Only jpg, jpeg, gif, and png are supported.",
+  });
+
 const schema = z.object({
   name: z.optional(
     z.string()
@@ -32,8 +42,7 @@ const schema = z.object({
   description: z.optional(
   z.string()
   ),
-  picture: z.optional(
-   z.string()),
+  picture: fileSchema,
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -57,7 +66,19 @@ const EditCategoryModal = ({ category }: Props) => {
   const onsubmit = (data: FormValues) => {
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => value !== '')
+      
     );
+
+    if (data.picture[0]) {
+        filteredData.picture = data.picture[0];
+      }
+
+    console.log(data);
+
+    console.log({
+      id: category.id,
+      ...filteredData,
+    } as Category);
 
     mutate({
       id: category.id,
@@ -113,13 +134,36 @@ const EditCategoryModal = ({ category }: Props) => {
             </FormControl>
 
             <FormControl mt={4}>
-            <FormLabel>Picture</FormLabel>
-              <Input {...register("picture")} type="text"  id="picture"
-              placeholder={category.picture}
-              />
-              {errors.picture && <FormHelperText color="red">{errors.picture.message}</FormHelperText>}
-
-            </FormControl>
+                <FormLabel>Picture</FormLabel>
+                <Box
+                  as="label"
+                  htmlFor="picture"
+                  px={4}
+                  py={2}
+                  lineHeight="short"
+                  borderRadius="md"
+                  color="white"
+                  
+                  _hover={{ bg: "gray.600" }}
+                  cursor="pointer"
+                  width="100%"
+                  textAlign="center"
+                >
+                  Upload Picture
+                  <Input
+                  {...register("picture")}
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  hidden
+                />
+                </Box>
+                {errors.picture && (
+                  <FormHelperText color="red">
+                    {errors.picture.message?.toString()}
+                  </FormHelperText>
+                )}
+              </FormControl>
           </ModalBody>
 
           <ModalFooter>

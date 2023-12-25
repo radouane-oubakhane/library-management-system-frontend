@@ -26,6 +26,7 @@ const useDeleteReservation = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["reservations"]);
+      queryClient.invalidateQueries(["profile"]);
     },
 
     onError: (err, reservation, context) => {

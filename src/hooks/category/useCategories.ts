@@ -15,7 +15,6 @@ const useCategories = () => useQuery<Category[], Error>({
     queryFn: () => apiClient
         .get<Category[]>("/categories")
         .then(response => response.data),
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
 });
 
 

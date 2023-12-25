@@ -12,7 +12,6 @@ const useReservations = () => useQuery<Reservation[], Error>({
     queryFn : () => apiClient
                         .get<Reservation[]>('/reservations')
                         .then((response) => response.data),
-    staleTime: 1000 * 60 * 5, // 5 minutes
 
 });
 
