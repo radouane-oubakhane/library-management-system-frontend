@@ -188,7 +188,7 @@ const NavBar = () => {
               </Heading>
             
             <MenuList>
-              {user && <MenuItem>Profile</MenuItem>}
+              {user && <MenuItem><Link to="/profile">Profile</Link></MenuItem>}
               {!user && (
                 <MenuItem onClick={() => history("/login")}>Login</MenuItem>
               )}

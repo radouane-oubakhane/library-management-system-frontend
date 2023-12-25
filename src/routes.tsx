@@ -15,6 +15,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoutes from "./PrivateRoutes";
 import BookDetailPage from "./pages/BookDetailPage";
+import UserProfile from "./pages/UserProfilePage";
+import AdminProfilePage from "./pages/AdminProfilePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +57,10 @@ const router = createBrowserRouter([
         path: "borrows/",
         children: [{ index: true, element: <BorrowsPage /> }],
       },
+      {
+        path: "profile",
+        children: [{ index: true, element: <ProfilePage/> }],
+      }
     ],
   },
   {
