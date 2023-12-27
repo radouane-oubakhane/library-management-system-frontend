@@ -2,11 +2,14 @@ import {
     Box,
     Button,
     Center,
+    Flex,
     FormControl,
     FormHelperText,
     FormLabel,
     HStack,
     Input,
+    Image,
+    useColorModeValue,
   } from "@chakra-ui/react";
   
   import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
@@ -41,10 +44,22 @@ import User from "../models/User";
     const onSubmit = (data: FieldValues) => {
       login(data as User);
     };
+
+    const formBackground = useColorModeValue("white", "gray.800");
+
+
   
     return (
-      <Center>
+      
+      <Center
+      h="100vh"
+      bgImage="public/cat5.jpg"
+      bgSize="cover"
+      bgPosition="center"
+      >
         <Box
+          bg={formBackground}
+          boxShadow={"2xl"}
           width="lg"
           borderWidth="2px"
           borderRadius="lg"
@@ -101,6 +116,7 @@ import User from "../models/User";
           </form>
         </Box>
       </Center>
+      
     );
   }
   

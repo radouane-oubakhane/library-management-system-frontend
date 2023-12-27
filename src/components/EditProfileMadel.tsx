@@ -11,40 +11,39 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
-import Author from "../models/Author";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import useEditAuthor from "../hooks/author/useEddAuthor";
 import { useRef } from "react";
 import useUpdatePicture from "../hooks/useUpdatePicture";
+import Profile from "../models/profile";
+import ProfileRequest from "../models/ProfileRequest";
+import useEditProfile from "../hooks/profile/useEditProfile";
 import { EditIcon } from "@chakra-ui/icons";
 
 interface Props {
-  author: Author;
+  profile: Profile;
 }
 
 const schema = z.object({
   first_name: z.optional(z.string()),
   last_name: z.optional(z.string()),
   email: z.optional(z.string()),
+  password: z.optional(z.string()),
   phone: z.optional(z.string()),
   address: z.optional(z.string()),
   date_of_birth: z.optional(z.string()),
-  biography: z.optional(z.string()),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-const EditAuthorModal = ({ author }: Props) => {
+const EditProfileModal = ({ profile }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const pictureRef = useRef<HTMLInputElement>(null);
   const { mutate: mutatePicture } = useUpdatePicture(
-    "authors",
-    author.id!
+    "profile",
   );
 
 
@@ -57,7 +56,7 @@ const EditAuthorModal = ({ author }: Props) => {
     resolver: zodResolver(schema),
   });
 
-  const { mutate } = useEditAuthor();
+  const { mutate } = useEditProfile();
 
   const onsubmit = (data: FormValues) => {
 
@@ -65,9 +64,9 @@ const EditAuthorModal = ({ author }: Props) => {
       Object.entries(data).filter(([_, value]) => value !== '')
     );
     mutate({
-      id: author.id,
+      id: profile.id,
       ...filteredData,
-    } as Author);
+    } as ProfileRequest);
 
     if (pictureRef.current) {
       if (pictureRef.current.files?.length) {
@@ -83,6 +82,7 @@ const EditAuthorModal = ({ author }: Props) => {
 
   return (
     <>
+    
       <Button leftIcon={<EditIcon />}
         variant="solid"
         colorScheme="whatsapp"
@@ -96,7 +96,7 @@ const EditAuthorModal = ({ author }: Props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit Author</ModalHeader>
+          <ModalHeader>Edit Profile</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -104,7 +104,7 @@ const EditAuthorModal = ({ author }: Props) => {
               <Input
                 {...register("first_name")}
                 type="text"
-                placeholder={author.first_name}
+                placeholder={profile.first_name}
                 id="firstName"
               />
             </FormControl>
@@ -114,7 +114,7 @@ const EditAuthorModal = ({ author }: Props) => {
               <Input
                 {...register("last_name")}
                 type="text"
-                placeholder={author.last_name}
+                placeholder={profile.last_name}
                 id="lastName"
               />
             </FormControl>
@@ -124,7 +124,7 @@ const EditAuthorModal = ({ author }: Props) => {
               <Input
                 {...register("email")}
                 type="email"
-                placeholder={author.email}
+                placeholder={profile.email}
                 id="email"
               />
             </FormControl>
@@ -135,7 +135,7 @@ const EditAuthorModal = ({ author }: Props) => {
                 {...register("phone")}
                 type="text"
                 id="phone"
-                placeholder={author.phone}
+                placeholder={profile.phone}
               />
             </FormControl>
 
@@ -145,7 +145,7 @@ const EditAuthorModal = ({ author }: Props) => {
                 {...register("address")}
                 type="text"
                 id="address"
-                placeholder={author.address}
+                placeholder={profile.address}
               />
             </FormControl>
 
@@ -155,16 +155,17 @@ const EditAuthorModal = ({ author }: Props) => {
                 {...register("date_of_birth")}
                 type="date"
                 id="dateOfBirth"
-                placeholder={author.date_of_birth}
+                placeholder={profile.date_of_birth}
               />
             </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Biography</FormLabel>
-              <Textarea height="100px"
-                {...register("biography")}
-                id="biography"
-                placeholder={author.biography}
+            <FormControl>
+              <FormLabel>Password</FormLabel>
+              <Input
+                {...register("password")}
+                type="date"
+                id="password"
+                placeholder="Enter your password"
               />
             </FormControl>
 
@@ -210,7 +211,4 @@ const EditAuthorModal = ({ author }: Props) => {
 };
 
 
-export default EditAuthorModal;
-
-
-
+export default EditProfileModal;

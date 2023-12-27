@@ -3,6 +3,7 @@ import Book from "../models/Book";
 import useDeleteBook from "../hooks/book/useDeleteBook";
 import EditBookModal from "./EditBookMadel";
 import { Link } from "react-router-dom";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 interface Props {
   book: Book;
@@ -21,7 +22,7 @@ const AdminBookCard = ({ book }: Props) => {
         boxShadow="md"
         borderRadius={10}
         overflow="hidden"
-        src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421577449/vagabond-vol-37-9781421577449_hr.jpg"
+        src={`http://127.0.0.1:8000/storage/books/${book.picture}`}
         alt={`${book.title} image`}
       />
 
@@ -36,7 +37,7 @@ const AdminBookCard = ({ book }: Props) => {
           </Heading>
           <HStack justifyContent="space-between" spacing={4} pt={2}>
             <EditBookModal book={book} />
-            <Button variant="solid" colorScheme="red" w="100%"
+            <Button variant="solid" colorScheme="red" w="100%" leftIcon={<DeleteIcon />}
             disabled={isLoading}
               onClick={() => {
                 mutate(book);

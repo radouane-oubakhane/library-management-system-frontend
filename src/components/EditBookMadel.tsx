@@ -13,6 +13,7 @@ import {
   Textarea, 
   ModalFooter,
   Select,
+  Box,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import Book from "../models/Book";
@@ -21,6 +22,9 @@ import useCategories from "../hooks/category/useCategories";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import useEditBook from "../hooks/book/useEditBook";
+import { useRef } from "react";
+import useUpdatePicture from "../hooks/useUpdatePicture";
+import { EditIcon } from "@chakra-ui/icons";
 
 interface Props {
   book: Book;
@@ -29,16 +33,15 @@ interface Props {
 
 const schema = z.object({
   title: z.optional(z.string()),
-    book_category_id: z.optional(z.string()),
-    author_id: z.optional(z.string()),
-  isbn: z.optional(z.string()),
-  description: z.optional(z.string()),
-  stock: z.optional(z.string()),
-  publisher: z.optional(z.string()),
-  published_at: z.optional(z.string()),
-  language: z.optional(z.string()),
-  edition: z.optional(z.string()),
-  picture: z.optional(z.string()),
+category_id: z.optional(z.string()),
+author_id: z.optional(z.string()),
+isbn: z.optional(z.string()),
+description: z.optional(z.string()),
+stock: z.optional(z.string()),
+publisher: z.optional(z.string()),
+published_at: z.optional(z.string()),
+language: z.optional(z.string()),
+edition: z.optional(z.string()),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -56,6 +59,12 @@ const EditBookModal = ({ book }: Props) => {
     error: categoriesError,
   } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const pictureRef = useRef<HTMLInputElement>(null);
+  const { mutate: mutatePicture } = useUpdatePicture(
+    "books",
+    book.id!
+  );
+
 
   const {
     handleSubmit,
@@ -79,13 +88,21 @@ const EditBookModal = ({ book }: Props) => {
       id: book.id,
       ...filteredData,
     } as Book);
+
+    if (pictureRef.current) {
+      if (pictureRef.current.files?.length) {
+        const picture = new FormData();
+        picture.append("picture", pictureRef.current.files[0] as File);
+        mutatePicture(picture);
+      }
+    }
     reset();
     onClose();
   };
 
   return (
     <>
-      <Button
+      <Button leftIcon={<EditIcon />}
         variant="solid"
         colorScheme="whatsapp"
         mr={3}
@@ -216,11 +233,29 @@ const EditBookModal = ({ book }: Props) => {
 
               <FormControl mt={4}>
                 <FormLabel>Book Cover</FormLabel>
-                <Input 
-                {...register("picture")} 
-                type="text" 
-                placeholder={book.picture}
-                id="picture" />
+                <Box
+                  as="label"
+                  htmlFor="picture"
+                  px={4}
+                  py={2}
+                  lineHeight="short"
+                  borderRadius="md"
+                  color="white"
+                  
+                  _hover={{ bg: "gray.600" }}
+                  cursor="pointer"
+                  width="100%"
+                  textAlign="center"
+                >
+                  Upload Picture
+                  <Input
+                  ref={pictureRef}
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  hidden
+                />
+                </Box>
               </FormControl>
             </ModalBody>
 

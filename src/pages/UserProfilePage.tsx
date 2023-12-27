@@ -1,26 +1,39 @@
-import { Box, Heading, Text, Image, Tabs, TabList, Tab, TabPanels, TabPanel, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  Image,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Button,
+  HStack,
+} from "@chakra-ui/react";
 
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
 import useProfileUser from "../hooks/userProfile/useUserProfile";
 
-import BorrowTable from './BorrowTable';
-import ReservationTable from './ReservationTable';
-import { Link } from 'react-router-dom';
+import BorrowTable from "../components/BorrowTable";
+import ReservationTable from "../components/ReservationTable";
+import { Link } from "react-router-dom";
+import HeaderPage from "../components/HeaderPage";
+import useMemberProfile from "../hooks/profile/useMemberProfile";
+import EditProfileModal from "../components/EditProfileMadel";
 
 const ProfileUserPage = () => {
   const {
     data: profile,
     isLoading: authorIsLoading,
     error: authorError,
-  } = useProfileUser();
-  
+  } = useMemberProfile();
+
   const handleDeleteProfile = () => {
     // Implement the logic to delete the user profile
     console.log(`Delete profile for user with ID ${id}`);
   };
-  const handleUpdateProfile=()=>{
-
-  }
+  const handleUpdateProfile = () => {};
   if (authorIsLoading) return <AuthorDetailPageSkeleton />;
 
   if (authorError)
@@ -29,26 +42,71 @@ const ProfileUserPage = () => {
         {authorError.message}
       </Text>
     );
-    const { id,first_name, last_name, email, phone, address, picture, reservation, borrow } = profile;
+  const {
+    id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address,
+    picture,
+    reservation,
+    borrow,
+  } = profile;
 
-    console.log(profile)
-    return (
-        <Box p={4}>
-          <Heading as="h2" size="xl" mb={4}>
-            {first_name} {last_name}
+  return (
+    <>
+      <HeaderPage title="Member Profile Details" ButtonComponent={Button} />
+      <HStack
+        spacing={10}
+        justify="space-between"
+        align="start"
+        padding={"20px"}
+        borderRadius={10}
+        boxShadow="lg"
+        m="20px"
+      >
+        <Box flex={1}>
+          <Image
+            src={`http://127.0.0.1:8000/storage/members/${profile?.picture}`}
+            alt={`${profile?.first_name} ${profile?.last_name}`}
+            borderRadius="full"
+            boxSize="150px"
+            mb={6}
+          />
+          <Heading size="lg" mb={2}>
+            {profile?.first_name} {profile?.last_name}
           </Heading>
-          <Image src={picture} alt={`${first_name} ${last_name}`} borderRadius="full" boxSize="150px" mb={4} />
-    
-          <Text>Email: {email}</Text>
-          <Text>Phone: {phone}</Text>
-          <Text>Address: {address}</Text>
-          <Button onClick={handleUpdateProfile} colorScheme="blue" mt={4} mr={2}>
-        <Link to={`/edit-profile/${id}`}>Modify Profile</Link>
-      </Button>
-      <Button colorScheme="red" mt={4} onClick={handleDeleteProfile}>
-        Delete Profile
-      </Button>
-          <Tabs mt={8} >
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Email :</Heading>
+            <Text>{profile?.email}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Phone :</Heading>
+            <Text>{profile?.phone}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Address :</Heading>
+            <Text>{profile?.address}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Date of Birth :</Heading>
+            <Text>{profile?.date_of_birth}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Membership start date :</Heading>
+            <Text>{profile?.membership_start_date}</Text>
+          </HStack>
+          <HStack spacing={1}>
+            <Heading size="sm">Membership end date :</Heading>
+            <Text>{profile?.membership_end_date}</Text>
+          </HStack>
+        </Box>
+        <Box>
+          <EditProfileModal profile={profile} />
+        </Box>
+      </HStack>
+      <Tabs mt={8}>
         <TabList>
           <Tab>Reservations</Tab>
           <Tab>Borrowed Books</Tab>
@@ -56,22 +114,17 @@ const ProfileUserPage = () => {
 
         <TabPanels>
           <TabPanel>
-            <Heading as="h3" size="lg" mt={4} mb={2}>
-              Reservations
-            </Heading>
-            <ReservationTable reservations={reservation} />
+            
+            <ReservationTable />
           </TabPanel>
           <TabPanel>
-            <Heading as="h3" size="lg" mt={4} mb={2}>
-              Borrowed Books
-            </Heading>
-            <BorrowTable borrows={borrow} />
+           
+            <BorrowTable />
           </TabPanel>
         </TabPanels>
       </Tabs>
-        </Box>
-      );
+    </>
+  );
 };
-
 
 export default ProfileUserPage;

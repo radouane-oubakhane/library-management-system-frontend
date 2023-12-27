@@ -5,7 +5,6 @@ import User from "../models/User";
 import useRegister from "../hooks/auth/useRegister";
 import useLogin from "../hooks/auth/useLogin";
 import useLogout from "../hooks/auth/useLogout";
-import Inscription from "../models/Inscription";
 
 
 interface Props {
@@ -64,7 +63,7 @@ const AuthProvider = ({ children, onLogin, onRegister, onLogout }: Props) => {
 
 
 
-  const register = (inscriptions: Inscription) => {
+  const register = (inscriptions: FormData) => {
     mutateRegister(inscriptions);
     onRegister();
   };

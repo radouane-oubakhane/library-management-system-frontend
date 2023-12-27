@@ -1,4 +1,5 @@
 import Borrow from "./Borrow";
+import DashboardData from "./DashboardData";
 import Reservation from "./Reservation";
 
 
@@ -15,7 +16,8 @@ export default interface Profile {
     membership_start_date: string;
     membership_end_date: string;
     picture: string;
-    reservation: Reservation[];
-    borrow: Borrow[];
+    reservation?: Reservation[];
+    borrow?: Borrow[];
+    dashboardData?: DashboardData;
     }
 

@@ -1,4 +1,4 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Box, Input, useColorModeValue } from "@chakra-ui/react";
 import { ChangeEvent, useRef } from "react";
 
 interface Props {
@@ -7,6 +7,8 @@ interface Props {
 
 const SearchInput = ({ setSearchTerm }: Props) => {
   const searchTermRef = useRef<HTMLInputElement>(null);
+  const formBackground = useColorModeValue("white", "gray.800");
+
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
@@ -14,8 +16,11 @@ const SearchInput = ({ setSearchTerm }: Props) => {
   };
 
   return (
-    <Box paddingY={10}>
+    <Box paddingY={10} >
       <Input
+      bg={formBackground} boxShadow={"2xl"}
+      _focus={ {background: formBackground} }
+      _hover={ {background: formBackground} }
         ref={searchTermRef}
         borderRadius={20}
         variant="filled"

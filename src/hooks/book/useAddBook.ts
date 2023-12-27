@@ -9,9 +9,14 @@ interface AddBookContext {
 const useAddBook = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Book, Error, Book, AddBookContext>({
-    mutationFn: (book: Book) =>
-      apiClient.post(`/books`, book).then((res) => res.data),
+  return useMutation<Book, Error, FormData, AddBookContext>({
+    mutationFn: (book: FormData) =>
+      apiClient.post<FormData>(`/books`, book,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => res.data),
 
     onMutate: (newBook: Book) => {
       const previousBooks = queryClient.getQueryData<Book[]>(["books"]) || [];

@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         >
           <RouterProvider router={router} />
         </AuthProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/*<ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>

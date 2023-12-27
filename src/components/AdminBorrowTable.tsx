@@ -21,6 +21,7 @@ import useDeleteBorrow from "../hooks/borrow/useDeleteBorrow";
 import useBorrows from "../hooks/borrow/useBorrows";
 import { useState } from "react";
 import HeaderPage from "./HeaderPage";
+import { CheckIcon, DeleteIcon, WarningIcon } from "@chakra-ui/icons";
 
 
 
@@ -163,7 +164,7 @@ const AdminBorrowTable = () => {
                   <MemberModal member={borrow.member} />
                 </Td>
                 <Td>
-                  <BookModal book={borrow.book} />
+                  <BookModal book={borrow.book} admin />
                 </Td>
                 <Td>{borrow.borrow_date}</Td>
                 <Td color={statusColor(borrow.status)}>{borrow.status}</Td>
@@ -174,7 +175,7 @@ const AdminBorrowTable = () => {
                   <WrapItem>
                     {(borrow.status === "borrowed" ||
                       borrow.status === "overdue") && (
-                      <Button
+                      <Button leftIcon={<CheckIcon />}
                         mr={2}
                         onClick={() => mutateReturnedBorrows(borrow)}
                         colorScheme="green"
@@ -183,14 +184,14 @@ const AdminBorrowTable = () => {
                       </Button>
                     )}
                     {borrow.status === "borrowed" && (
-                      <Button
+                      <Button leftIcon={<WarningIcon />}
                         onClick={() => mutateOverdueBorrows(borrow)}
                         colorScheme="gray"
                       >
                         Overdue
                       </Button>
                     )}
-                    <Button
+                    <Button leftIcon={<DeleteIcon />}
                       ml={2}
                       onClick={() => mutateDeleteBorrows(borrow)}
                       colorScheme="red"

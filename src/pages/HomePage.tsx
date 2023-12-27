@@ -16,7 +16,11 @@ function HomePage() {
 
   const filteredBooks = searchTerm === ''
   ? books
-  : books?.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()));
+  : books?.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  book.author_first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  book.author_last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  book.category?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (user?.is_admin) {
     return <AdminDashboard />

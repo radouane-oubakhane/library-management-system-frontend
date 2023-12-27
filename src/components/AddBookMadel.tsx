@@ -13,6 +13,8 @@ import {
   Textarea,
   ModalFooter,
   Select,
+  FormHelperText,
+  Box,
 } from "@chakra-ui/react";
 import useAuthors from "../hooks/author/useAuthors";
 import useCategories from "../hooks/category/useCategories";
@@ -22,19 +24,30 @@ import { useForm } from "react-hook-form";
 import useAddBook from "../hooks/book/useAddBook";
 import Book from "../models/Book";
 
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+
+const fileSchema = z
+  .any()
+  .refine((file) => SUPPORTED_FORMATS.includes(file[0]?.type), {
+    message:
+      "Unsupported file format. Only jpg, jpeg, gif, and png are supported.",
+  });
+
 const schema = z.object({
   title: z
     .string()
     .min(3, { message: "Title must be at least 3 characters long" }),
-    category_id: z.string().nonempty({ message: 'Please select a category' }),
-    author_id: z.string().nonempty({ message: 'Please select an author' }),
+  category_id: z.string().nonempty({ message: "Please select a category" }),
+  author_id: z.string().nonempty({ message: "Please select an author" }),
   isbn: z
     .string()
     .min(3, { message: "ISBN must be at least 3 characters long" }),
   description: z
     .string()
     .min(3, { message: "Description must be at least 3 characters long" }),
-  stock: z.string().min(1, { message: "Stock must be at least 1 character long" }),
+  stock: z
+    .string()
+    .min(1, { message: "Stock must be at least 1 character long" }),
   publisher: z
     .string()
     .min(3, { message: "Publisher must be at least 3 characters long" }),
@@ -45,7 +58,7 @@ const schema = z.object({
   edition: z
     .string()
     .min(3, { message: "Edition must be at least 3 characters long" }),
-  picture: z.string().url({ message: "Please enter a valid URL" }),
+  picture: fileSchema,
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -75,20 +88,20 @@ const AddBookModal = () => {
   const { mutate } = useAddBook();
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    mutate({
-      title: data.title,
-      author_id: Number(data.author_id),
-      book_category_id: Number(data.category_id),
-      isbn: data.isbn,
-      description: data.description,
-      stock: Number(data.stock),
-      publisher: data.publisher,
-      published_at: data.published_at,
-      language: data.language,
-      edition: data.edition,
-      picture: data.picture,
-    } as Book);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("author_id", data.author_id);
+    formData.append("book_category_id", data.category_id);
+    formData.append("isbn", data.isbn);
+    formData.append("description", data.description);
+    formData.append("stock", data.stock);
+    formData.append("publisher", data.publisher);
+    formData.append("published_at", data.published_at);
+    formData.append("language", data.language);
+    formData.append("edition", data.edition);
+    formData.append("picture", data.picture[0]);
+
+    mutate(formData);
     reset();
     onClose();
   };
@@ -114,6 +127,13 @@ const AddBookModal = () => {
                   placeholder="Title"
                   id="title"
                 />
+                {
+                  errors.title && (
+                    <FormHelperText color="red">
+                      {errors.title.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -124,6 +144,13 @@ const AddBookModal = () => {
                   placeholder="ISBN"
                   id="isbn"
                 />
+                {
+                  errors.isbn && (
+                    <FormHelperText color="red">
+                      {errors.isbn.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -139,6 +166,13 @@ const AddBookModal = () => {
                     </option>
                   ))}
                 </Select>
+                {
+                  errors.category_id && (
+                    <FormHelperText color="red">
+                      {errors.category_id.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -154,6 +188,13 @@ const AddBookModal = () => {
                     </option>
                   ))}
                 </Select>
+                {
+                  errors.author_id && (
+                    <FormHelperText color="red">
+                      {errors.author_id.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -164,6 +205,13 @@ const AddBookModal = () => {
                   height="100px"
                   placeholder="Description"
                 />
+                {
+                  errors.description && (
+                    <FormHelperText color="red">
+                      {errors.description.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -174,6 +222,13 @@ const AddBookModal = () => {
                   placeholder="Stock"
                   id="stock"
                 />
+                {
+                  errors.stock && (
+                    <FormHelperText color="red">
+                      {errors.stock.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -184,6 +239,13 @@ const AddBookModal = () => {
                   placeholder="Publisher"
                   id="publisher"
                 />
+                {
+                  errors.publisher && (
+                    <FormHelperText color="red">
+                      {errors.publisher.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -194,6 +256,13 @@ const AddBookModal = () => {
                   placeholder="Publisher Date"
                   id="published_at"
                 />
+                {
+                  errors.published_at && (
+                    <FormHelperText color="red">
+                      {errors.published_at.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -204,6 +273,13 @@ const AddBookModal = () => {
                   placeholder="Language"
                   id="language"
                 />
+                {
+                  errors.language && (
+                    <FormHelperText color="red">
+                      {errors.language.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
@@ -214,11 +290,47 @@ const AddBookModal = () => {
                   placeholder="Edition"
                   id="edition"
                 />
+                {
+                  errors.edition && (
+                    <FormHelperText color="red">
+                      {errors.edition.message}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Book Cover</FormLabel>
-                <Input {...register("picture")} type="text" id="picture" />
+                <Box
+                  as="label"
+                  htmlFor="picture"
+                  px={4}
+                  py={2}
+                  lineHeight="short"
+                  borderRadius="md"
+                  color="white"
+                  
+                  _hover={{ bg: "gray.600" }}
+                  cursor="pointer"
+                  width="100%"
+                  textAlign="center"
+                >
+                  Upload Picture
+                  <Input
+                  {...register("picture")}
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  hidden
+                />
+                </Box>
+                {
+                  errors.picture && (
+                    <FormHelperText color="red">
+                      {errors.picture.message?.toString()}
+                    </FormHelperText>
+                  )
+                }
               </FormControl>
             </ModalBody>
 

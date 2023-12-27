@@ -13,6 +13,7 @@ import Author from "../models/Author";
 import { Link } from "react-router-dom";
 import useDeleteAuthor from "../hooks/author/useDeleteAuthor";
 import EditAuthorModal from "./EditAuthorMadel";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 interface Props {
   author: Author;
@@ -24,7 +25,7 @@ const AuthorCard = ({ author }: Props) => {
     <Card maxW="sm">
       <CardBody>
         <Image
-          src="https://bit.ly/dan-abramov"
+          src={`http://127.0.0.1:8000/storage/authors/${author.picture}`}
           alt="Green double couch with wooden legs"
           borderRadius="lg"
           _hover={{
@@ -44,7 +45,7 @@ const AuthorCard = ({ author }: Props) => {
       <Divider />
       <HStack justifyContent="space-between" spacing={4} p={4}>
         <EditAuthorModal author={author} />
-        <Button variant="solid" colorScheme="red" w="100%"
+        <Button variant="solid" colorScheme="red" w="100%" leftIcon={<DeleteIcon />}
         onClick={() => mutate(author)}
         isLoading={isLoading}
         >

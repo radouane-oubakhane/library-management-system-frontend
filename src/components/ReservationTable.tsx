@@ -17,6 +17,7 @@ import useDeleteReservation from "../hooks/reservation/useDeleteReservation";
 import Reservation from "../models/Reservation";
 import BookModal from "./BookModal";
 import HeaderPage from "./HeaderPage";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const ReservationTable = () => {
   const { mutate: deleteReservation, isLoading: isDeleting } =
@@ -167,7 +168,7 @@ const ReservationTable = () => {
                   {reservation.canceled_at || "Not Canceled"}
                 </Td>
                 <Td>
-                  <Button
+                  <Button leftIcon={<DeleteIcon />}
                     colorScheme="red"
                     onClick={() => {
                       deleteReservation(reservation);

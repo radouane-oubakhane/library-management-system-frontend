@@ -16,12 +16,14 @@ import Book from "../models/Book";
 import EditBookModal from "./EditBookMadel";
 import useDeleteBook from "../hooks/book/useDeleteBook";
 import { Link } from "react-router-dom";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 interface Props {
   book: Book;
+  admin?: boolean;
 }
 
-const BookModal = ({ book }: Props) => {
+const BookModal = ({ book, admin }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteBook();
 
@@ -42,7 +44,7 @@ const BookModal = ({ book }: Props) => {
               maxH="400px"
               borderRadius={10}
               overflow="hidden"
-              src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421577449/vagabond-vol-37-9781421577449_hr.jpg"
+              src={`http://127.0.0.1:8000/storage/books/${book.picture}`}
               alt={`${book.title} image`}
             />
           </Center>
@@ -54,8 +56,11 @@ const BookModal = ({ book }: Props) => {
           </ModalBody>
 
           <ModalFooter>
+            {admin && (
             <EditBookModal book={book} />
-            <Button
+            )}
+            {admin && (
+            <Button leftIcon={<DeleteIcon />}
               variant="solid"
               colorScheme="red"
               w="100%"
@@ -68,6 +73,7 @@ const BookModal = ({ book }: Props) => {
             >
               {isLoading ? "Deleting..." : "Delete"}
             </Button>
+            )}
             <Button colorScheme="blue" mr={3} w="100%" onClick={onClose}>
               Close
             </Button>

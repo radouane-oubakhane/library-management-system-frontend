@@ -57,11 +57,11 @@ const AddCategoryModal = () => {
   const { mutate } = useAddCategory();
 
   const onsubmit = (data: FormValues) => {
-    mutate({
-      name: data.name,
-      description: data.description,
-      picture: data.picture[0],
-    });
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("picture", data.picture[0]);
+    mutate(formData);
 
     onClose();
     reset();

@@ -1,6 +1,5 @@
 import React from "react";
 import User from "../models/User";
-import Inscription from "../models/Inscription";
 
 
 
@@ -13,7 +12,7 @@ interface AuthContextType {
   resetLoginError: () => void;
   loginLoading: boolean;
 
-  register: (inscription: Inscription) => void;
+  register: (inscription: FormData) => void;
   registerError: string | null;
   resetRegisterError: () => void;
 

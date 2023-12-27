@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -20,6 +21,14 @@ import { z } from "zod";
 import useAddAuthor from "../hooks/author/useAddAuthor";
 import Author from "../models/Author";
 
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+
+const fileSchema = z
+  .any()
+  .refine((file) => SUPPORTED_FORMATS.includes(file[0]?.type), {
+    message:
+      "Unsupported file format. Only jpg, jpeg, gif, and png are supported.",
+  });
 
 const schema = z.object({
   firstName: z
@@ -35,7 +44,7 @@ const schema = z.object({
   address: z.string().min(10, { message: "Address must be at least 10 characters long" }),
   dateOfBirth: z.string().min(10, { message: "Enter a valid date" }),
   biography: z.string().min(10, { message: "Biography must be at least 10 characters long" }),
-  picture: z.string().url({ message: "Please enter a valid URL" }),
+  picture: fileSchema,
 });
 
 
@@ -55,16 +64,17 @@ const AddAuthorModal = () => {
 
   const onsubmit = (data: FormValues) => {
 
-    mutate({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-      date_of_birth: data.dateOfBirth,
-      biography: data.biography,
-      picture: data.picture,
-    } as Author);
+    const formData = new FormData(); 
+    formData.append("first_name", data.firstName);
+    formData.append("last_name", data.lastName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("address", data.address);
+    formData.append("date_of_birth", data.dateOfBirth);
+    formData.append("biography", data.dateOfBirth);
+    formData.append("picture", data.picture[0]);
+
+    mutate(formData);
 
     onClose();
     reset();
@@ -165,11 +175,29 @@ const AddAuthorModal = () => {
 
             <FormControl mt={4}>
               <FormLabel>Picture</FormLabel>
-              <Input 
-                {...register("picture")} 
-                id="picture"
-              type="text"
+              <Box
+                  as="label"
+                  htmlFor="picture"
+                  px={4}
+                  py={2}
+                  lineHeight="short"
+                  borderRadius="md"
+                  color="white"
+                  
+                  _hover={{ bg: "gray.600" }}
+                  cursor="pointer"
+                  width="100%"
+                  textAlign="center"
+                >
+                  Upload Picture
+                  <Input
+                  {...register("picture")}
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  hidden
                 />
+                </Box>
             </FormControl>
           </ModalBody>
 

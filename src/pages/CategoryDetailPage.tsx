@@ -51,7 +51,7 @@ const CategoryDetailPage = () => {
     <>
       <Box position="relative" height="200px">
         <Box
-          bgImage="https://www.eecs.mit.edu/wp-content/uploads/2021/06/compscihero-1024x545.jpg"
+          bgImage={`http://127.0.0.1:8000/storage/categories/${category?.picture}`}
           bgPosition="center"
           bgRepeat="no-repeat"
           bgSize="cover"

@@ -3,6 +3,7 @@ import Inscription from "../models/Inscription"
 import useDeleteInscription from "../hooks/inscription/useDeleteInscription"
 import useAcceptInscription from "../hooks/inscription/useAcceptInscription"
 import useRejectInscription from "../hooks/inscription/useRejectInscription"
+import { ChatIcon, CheckIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons"
 
 
 interface Props {
@@ -21,7 +22,7 @@ const InscriptionCard = ({ inscription }: Props) => {
   <Image
     objectFit='cover'
     maxW={{ base: '100%', sm: '200px' }}
-    src='https://bit.ly/dan-abramov'
+    src={`http://127.0.0.1:8000/storage/inscriptions/${inscription.picture}`}
     alt='Caffe Latte'
   />
 
@@ -55,14 +56,14 @@ const InscriptionCard = ({ inscription }: Props) => {
       {(inscription.status === 'pending' || inscription.status === 'rejected') &&
         <Button variant='solid' colorScheme='whatsapp' mr={3}
         onClick={() => acceptInscription(inscription)}
-        disabled={acceptLoading}
+        disabled={acceptLoading} leftIcon={<CheckIcon />}
         >
           {acceptLoading ? 'Loading...' : 'Accept'}
         </Button>
       }
       {
         inscription.status === 'pending' &&
-        <Button variant='solid' colorScheme='yellow' mr={3}
+        <Button variant='solid' colorScheme='yellow' mr={3} leftIcon={<SmallCloseIcon />}
         onClick={() => rejectInscription(inscription)}
         disabled={rejectLoading}
         >
@@ -70,7 +71,7 @@ const InscriptionCard = ({ inscription }: Props) => {
       </Button>
       }
       
-      <Button variant='solid' colorScheme='red'
+      <Button variant='solid' colorScheme='red' leftIcon={<DeleteIcon />}
       onClick={() => deleteInscription(inscription)}
       disabled={deleteLoading}
       

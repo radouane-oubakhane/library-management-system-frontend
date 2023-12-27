@@ -23,6 +23,7 @@ import useCategoryBooks from "../hooks/category/useCategryBooks";
 import BookInfo from "../components/BookInfo";
 import useAuth from "../hooks/auth/useAuth";
 import AdminBookCard from "../components/AdminBookCard";
+import EditBookModal from "../components/EditBookMadel";
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId?: string }>();
@@ -88,6 +89,7 @@ const BookDetailPage = () => {
           
         </GridItem>
         <GridItem area="details" paddingX={8} paddingY={14}>
+        <HStack spacing={10} justify="space-between" align="start">
           <VStack spacing={4} align="stretch">
             <Heading fontSize="2xl" fontWeight="bold">
               {book?.title}
@@ -104,6 +106,10 @@ const BookDetailPage = () => {
             </Heading>
             <ExpandableText>{book?.description}</ExpandableText>
           </VStack>
+          <Box>
+              <EditBookModal book={book} />
+            </Box>
+        </HStack>
         </GridItem>
         <GridItem area="divider">
           <Divider mt="30px" />

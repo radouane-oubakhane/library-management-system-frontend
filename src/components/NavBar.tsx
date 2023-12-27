@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarBadge,
+  Box,
   Button,
   Divider,
   HStack,
@@ -11,6 +12,7 @@ import {
   MenuList,
   Skeleton,
   Spacer,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import useAuthors from "../hooks/author/useAuthors";
@@ -21,10 +23,13 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/auth/useAuth";
+import useMemberProfile from "../hooks/profile/useMemberProfile";
 
 const NavBar = () => {
   const toast = useToast();
   const location = useLocation();
+  const formBackground = useColorModeValue("white", "gray.800");
+
   const { data: categories, error: categoryError } = useCategories();
   const { data: authors, error: authorError } = useAuthors();
   const [selectedSection, setSelectedSection] = useState("");
@@ -42,6 +47,10 @@ const NavBar = () => {
   } = useAuth();
   const history = useNavigate();
 
+  const {
+    data: profile,
+  } = useMemberProfile();
+
   useEffect(() => {
     setSelectedSection(location.pathname.split("/")[1] || "home");
   }, [location.pathname]);
@@ -51,6 +60,7 @@ const NavBar = () => {
   }
 
   const showLoginError = () => {
+  
     if (loginError || logoutError || registerError) {
       toast({
         title: "An error occurred.",
@@ -67,6 +77,16 @@ const NavBar = () => {
 
   return (
     <>
+    {(loginLoading || logoutLoading) && (
+        <Skeleton startColor="pink.500" endColor="orange.500" height="4px" />
+      )}
+      <Box
+      position="fixed"
+      top="0"
+      width="100%"
+      zIndex="docked"
+      bg={formBackground}
+    >
       <HStack justifyContent="space-between" padding="20px">
         <HStack justifyContent="space-between" spacing={10}>
           <Link to="/">
@@ -78,7 +98,7 @@ const NavBar = () => {
               onClick={() => setSelectedSection("home")}
               textColor={selectedSection === "home" ? "Fuchsia" : ""}
             >
-              R-Library
+              FST-Library
             </Heading>
           </Link>
           <CategorySelector categories={categories} />
@@ -149,6 +169,7 @@ const NavBar = () => {
             </Link>
           )}
           
+          {user && (
             <Link to="/reservations">
               <Heading
                 as="b"
@@ -160,7 +181,9 @@ const NavBar = () => {
                 Reservations
               </Heading>
             </Link>
+          )}
           
+          {user && (
           
             <Link to="/borrows">
               <Heading
@@ -173,6 +196,7 @@ const NavBar = () => {
                 Borrows
               </Heading>
             </Link>
+          )}
           
         </HStack>
         <Spacer />
@@ -183,12 +207,12 @@ const NavBar = () => {
             
               <Heading as="b" size="sm" whiteSpace="nowrap">
                 <Button colorScheme="gray" as={MenuButton}>
-                  {user ? user.first_name + " " + user.last_name : "Guest"}
+                  {user ? profile?.first_name + " " + profile?.last_name : "Guest"}
                 </Button>
               </Heading>
             
             <MenuList>
-              {user && <MenuItem><Link to="/profile">Profile</Link></MenuItem>}
+              {user && <Link to="/profile"><MenuItem>Profile</MenuItem></Link>}
               {!user && (
                 <MenuItem onClick={() => history("/login")}>Login</MenuItem>
               )}
@@ -210,18 +234,20 @@ const NavBar = () => {
             </MenuList>
           </Menu>
           {user && (
-            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov">
+            <Link to="/profile">
+            <Avatar name={user?.first_name + " " + user?.last_name}
+             src={`http://127.0.0.1:8000/storage/members/${profile?.picture}`}>
               {user?.is_admin && <AvatarBadge boxSize="1em" bg="green.500" />}
             </Avatar>
+            </Link>
           )}
         </HStack>
       </HStack>
       {(!loginLoading || !logoutLoading) && (
         <Divider orientation="horizontal" />
       )}
-      {(loginLoading || logoutLoading) && (
-        <Skeleton startColor="pink.500" endColor="orange.500" height="4px" />
-      )}
+      </Box>
+      
 
       {(loginError || registerError || logoutError) && showLoginError()}
     </>

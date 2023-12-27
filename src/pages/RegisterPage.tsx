@@ -7,6 +7,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
@@ -14,7 +15,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/auth/useAuth";
-import Inscription from "../models/Inscription";
+
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+
+const fileSchema = z
+  .any()
+  .refine((file) => SUPPORTED_FORMATS.includes(file[0]?.type), {
+    message:
+      "Unsupported file format. Only jpg, jpeg, gif, and png are supported.",
+  });
 
 const schema = z.object({
   firstName: z
@@ -33,10 +42,10 @@ const schema = z.object({
     .string()
     .min(10, { message: "Address must be at least 10 characters long" }),
   dateOfBirth: z.string().min(10, { message: "Enter a valid date" }),
-  picture: z.string().url({ message: "Please enter a valid URL" }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters long",
   }),
+  picture: fileSchema,
 });
 
 type FieldValues = z.infer<typeof schema>;
@@ -48,39 +57,54 @@ function RegisterPage() {
     reset,
     formState: { errors, isValid },
   } = useForm<FieldValues>({ resolver: zodResolver(schema) });
+  const formBackground = useColorModeValue("white", "gray.800");
+
 
   const { register: authRegister } = useAuth();
 
   const history = useNavigate();
   const onSubmit = (data: FieldValues) => {
-    authRegister({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-      date_of_birth: data.dateOfBirth,
-      password: data.password,
-      picture: data.picture,
-    } as Inscription);
+    const formData = new FormData();
+
+    formData.append("first_name", data.firstName);
+    formData.append("last_name", data.lastName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("address", data.address);
+    formData.append("date_of_birth", data.dateOfBirth);
+    formData.append("password", data.password);
+    formData.append("picture", data.picture[0]);
+
+    authRegister(formData);
+
+    
   };
 
   return (
-    <Center>
+    <Center
+      h="100vh"
+      bgImage="public/cat5.jpg"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      height="100%"
+      >
       <Box
+        bg={formBackground}
+        boxShadow={"2xl"}
         width="lg"
         borderWidth="2px"
         borderRadius="lg"
         overflow="hidden"
         padding="5"
-        marginTop="200px"
+        marginY="60px"
       >
         Register
         <form
           onSubmit={handleSubmit((data) => {
             onSubmit(data);
             reset();
-            history("/")
+            history("/");
           })}
         >
           <FormControl marginTop={4}>
@@ -160,16 +184,38 @@ function RegisterPage() {
             )}
           </FormControl>
 
-          
-
           <FormControl marginTop={4}>
             <FormLabel>Picture</FormLabel>
-            <Input {...register("picture")} type="text" id="picture" />
+            <Box
+              as="label"
+              htmlFor="picture"
+              px={4}
+              py={2}
+              lineHeight="short"
+              borderRadius="md"
+              color="white"
+              _hover={{ bg: "gray.600" }}
+              cursor="pointer"
+              width="100%"
+              textAlign="center"
+            >
+              Upload Picture
+              <Input
+                {...register("picture")}
+                id="picture"
+                type="file"
+                accept="image/*"
+                hidden
+              />
+            </Box>
+
             {!errors.picture && (
               <FormHelperText> Please enter your picture.</FormHelperText>
             )}
             {errors.picture && (
-              <FormHelperText>{errors.picture.message}</FormHelperText>
+              <FormHelperText color="red">
+                {errors.picture.message?.toString()}
+              </FormHelperText>
             )}
           </FormControl>
 

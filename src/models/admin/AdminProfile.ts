@@ -13,6 +13,6 @@ export default interface AdminProfile {
     membership_start_date: Date;
     membership_end_date: Date;
     picture: string;
-    inscriptions: Inscription[];
-    dashboardData: DashboardData;
+    inscriptions?: Inscription[];
+    dashboardData?: DashboardData;
 }

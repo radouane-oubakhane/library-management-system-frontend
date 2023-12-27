@@ -12,29 +12,25 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import useBorrowReservation from "../hooks/reservation/useBorrowReservation";
 import useDeleteReservation from "../hooks/reservation/useDeleteReservation";
 import Reservation from "../models/Reservation";
 import BookModal from "./BookModal";
 import BorrowReservationModel from "./BorrowReservationModel";
 import HeaderPage from "./HeaderPage";
 import MemberModal from "./MemberModal";
-import useBorrows from "../hooks/borrow/useBorrows";
 import useReservations from "../hooks/reservation/useReservations";
-
-
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const AdminReservationTable = () => {
   const { mutate: deleteReservation, isLoading: isDeleting } =
-  useDeleteReservation();
+    useDeleteReservation();
 
-const { mutate: borrowReservation, isLoading: isBorrowing } =
-  useBorrowReservation();
 
-  const {data: reservations, isLoading, error} = useReservations();
-  
+  const { data: reservations, isLoading, error } = useReservations();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
+
 
   let filteredReservations: Reservation[] | undefined = [];
 
@@ -46,63 +42,45 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
     { name: "Clear", value: "", color: "gray" },
   ];
 
-
   if (filter === "" && searchTerm === "") {
     filteredReservations = reservations;
   } else if (filter !== "" && searchTerm === "") {
     filteredReservations = reservations?.filter(
       (reservation) => reservation.status === filter
     );
-  }
-    else if (filter === "" && searchTerm !== "") {
-        filteredReservations = reservations?.filter(
-        (reservation) =>
-            reservation.member.first_name
+  } else if (filter === "" && searchTerm !== "") {
+    filteredReservations = reservations?.filter(
+      (reservation) =>
+        reservation.member.first_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        reservation.member.last_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        reservation.book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  } else {
+    filteredReservations = reservations?.filter(
+      (reservation) =>
+        reservation.status === filter &&
+        (reservation.member.first_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+          reservation.member.last_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-            reservation.member.last_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-            reservation.book.title
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) 
-        );
-    } else {
-        filteredReservations = reservations?.filter(
-        (reservation) =>
-            reservation.status === filter &&
-            (reservation.member.first_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-            reservation.member.last_name
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-            reservation.book.title
+          reservation.book.title
             .toLowerCase()
             .includes(searchTerm.toLowerCase()))
+    );
+  }
 
-        );
+  const onSelectedFilter = (filter: string) => {
+    setFilter(filter);
+    if (filter === "") {
+      setSearchTerm("");
     }
-
-
-    const onSelectedFilter = (filter: string) => {
-        setFilter(filter);
-        if (filter === "") {
-          setSearchTerm("");
-        }
-      }
-
-
-
-
-
-
-
-
-
-
-
-
+  };
 
   if (error)
     return (
@@ -161,7 +139,6 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                   <Td>
                     <Skeleton height="20px" />
                   </Td>
-                  
                 </Tr>
               ))}
             </Tbody>
@@ -189,7 +166,7 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                   <MemberModal member={reservation.member} />
                 </Td>
                 <Td>
-                  <BookModal book={reservation.book} />
+                  <BookModal book={reservation.book} admin />
                 </Td>
                 <Td>{reservation.reserved_at}</Td>
                 <Td>{reservation.expired_at}</Td>
@@ -201,13 +178,17 @@ const { mutate: borrowReservation, isLoading: isBorrowing } =
                 </Td>
                 <Td>
                   {reservation.status === "reserved" && (
-                    <BorrowReservationModel reservation={reservation} key={reservation.id} />
+                    <BorrowReservationModel
+                      reservation={reservation}
+                      key={reservation.id}
+                    />
                   )}
 
-                  <Button colorScheme="red" 
-                  onClick={() => {
-                    deleteReservation(reservation);
-                  }}
+                  <Button leftIcon={<DeleteIcon />}
+                    colorScheme="red"
+                    onClick={() => {
+                      deleteReservation(reservation);
+                    }}
                   >
                     Delete
                   </Button>

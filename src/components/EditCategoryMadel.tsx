@@ -1,6 +1,6 @@
 import {
   Box,
-    Button,
+  Button,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -8,7 +8,7 @@ import {
   Modal,
   ModalBody,
   ModalCloseButton,
-  ModalContent, 
+  ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
@@ -20,36 +20,28 @@ import Category from "../models/Category";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import useEditCategory from "../hooks/category/useEditCategory";
+import { useRef } from "react";
+import useUpdatePicture from "../hooks/useUpdatePicture";
+import { EditIcon } from "@chakra-ui/icons";
 
 interface Props {
   category: Category;
 }
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
-
-const fileSchema = z
-  .any()
-  .refine((file) => SUPPORTED_FORMATS.includes(file[0]?.type), {
-    message:
-      "Unsupported file format. Only jpg, jpeg, gif, and png are supported.",
-  });
-
 const schema = z.object({
-  name: z.optional(
-    z.string()
-
-  ),
-  description: z.optional(
-  z.string()
-  ),
-  picture: fileSchema,
+  name: z.optional(z.string()),
+  description: z.optional(z.string()),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-
 const EditCategoryModal = ({ category }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const pictureRef = useRef<HTMLInputElement>(null);
+  const { mutate: mutatePicture } = useUpdatePicture(
+    "categories",
+    category.id!
+  );
 
   const {
     handleSubmit,
@@ -60,80 +52,73 @@ const EditCategoryModal = ({ category }: Props) => {
     resolver: zodResolver(schema),
   });
 
-  const {mutate} = useEditCategory();
+  const { mutate } = useEditCategory();
 
-  
   const onsubmit = (data: FormValues) => {
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== '')
-      
+      Object.entries(data).filter(([_, value]) => value !== "")
     );
-
-    if (data.picture[0]) {
-        filteredData.picture = data.picture[0];
-      }
-
-    console.log(data);
-
-    console.log({
-      id: category.id,
-      ...filteredData,
-    } as Category);
 
     mutate({
       id: category.id,
       ...filteredData,
     } as Category);
 
+    if (pictureRef.current) {
+      if (pictureRef.current.files?.length) {
+        const picture = new FormData();
+        picture.append("picture", pictureRef.current.files[0] as File);
+        mutatePicture(picture);
+      }
+    }
+
     onClose();
     reset();
-  }
+  };
 
   return (
     <>
-      <Button
-        variant="solid"
-        colorScheme="whatsapp"
-        mr={3}
-        
-        onClick={onOpen}
-      >
+      <Button variant="solid" colorScheme="whatsapp" mr={3} onClick={onOpen} leftIcon={<EditIcon />}>
         Edit
       </Button>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <form 
-        onSubmit={handleSubmit(onsubmit)}
-        >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Category</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-            <FormLabel>Name</FormLabel>
-              <Input {...register("name")} type="text" id="name" 
-              placeholder={category.name}
-              />
-              {errors.name && <FormHelperText color="red">{errors.name.message}</FormHelperText>}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <form onSubmit={handleSubmit(onsubmit)}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Edit Category</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  {...register("name")}
+                  type="text"
+                  id="name"
+                  placeholder={category.name}
+                />
+                {errors.name && (
+                  <FormHelperText color="red">
+                    {errors.name.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
 
-            
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  {...register("description")}
+                  id="description"
+                  placeholder={category.description}
+                />
+                {errors.description && (
+                  <FormHelperText color="red">
+                    {errors.description.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
 
-
-            <FormControl mt={4}>
-            <FormLabel>Description</FormLabel>
-              <Textarea {...register("description")} id="description"
-              placeholder={category.description}
-              />
-              {errors.description && <FormHelperText color="red">{errors.description.message}</FormHelperText>}
-      
-            </FormControl>
-
-            <FormControl mt={4}>
+              <FormControl mt={4}>
                 <FormLabel>Picture</FormLabel>
                 <Box
                   as="label"
@@ -143,7 +128,6 @@ const EditCategoryModal = ({ category }: Props) => {
                   lineHeight="short"
                   borderRadius="md"
                   color="white"
-                  
                   _hover={{ bg: "gray.600" }}
                   cursor="pointer"
                   width="100%"
@@ -151,29 +135,28 @@ const EditCategoryModal = ({ category }: Props) => {
                 >
                   Upload Picture
                   <Input
-                  {...register("picture")}
-                  id="picture"
-                  type="file"
-                  accept="image/*"
-                  hidden
-                />
+                    ref={pictureRef}
+                    id="picture"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
                 </Box>
-                {errors.picture && (
-                  <FormHelperText color="red">
-                    {errors.picture.message?.toString()}
-                  </FormHelperText>
-                )}
               </FormControl>
-          </ModalBody>
+            </ModalBody>
 
-          <ModalFooter>
-          <Button colorScheme="blue" mr={3} type="submit" disabled={!isValid}>
-
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                type="submit"
+                disabled={!isValid}
+              >
+                Save
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
         </form>
       </Modal>
     </>

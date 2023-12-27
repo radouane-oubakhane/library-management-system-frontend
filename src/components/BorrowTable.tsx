@@ -1,36 +1,28 @@
 import {
   Box,
+  Button,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  Text,
-  Skeleton,
-  Button,
-  WrapItem,
-  VStack,
 } from "@chakra-ui/react";
-import BookModal from "./BookModal";
-import MemberModal from "./MemberModal";
-import useReturnedBorrow from "../hooks/borrow/useReturnedBorrow";
-import useOverdueBorrow from "../hooks/borrow/useOverdueBorrow";
-import useDeleteBorrow from "../hooks/borrow/useDeleteBorrow";
-import HeaderPage from "./HeaderPage";
-import useMemberProfile from "../hooks/profile/useMemberProfile";
 import { useState } from "react";
+import useMemberProfile from "../hooks/profile/useMemberProfile";
 import Borrow from "../models/Borrow";
-
-
+import BookModal from "./BookModal";
+import HeaderPage from "./HeaderPage";
 
 const BorrowTable = () => {
-
-
-
-  const {data: memberProfile, isLoading: isLoadingProfile, error: errorProfile} = useMemberProfile();
-
+  const {
+    data: memberProfile,
+    isLoading: isLoadingProfile,
+    error: errorProfile,
+  } = useMemberProfile();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
@@ -40,7 +32,7 @@ const BorrowTable = () => {
   const filters = [
     { name: "borrowed", value: "borrowed", color: "yellow" },
     { name: "returned", value: "returned", color: "green" },
-    { name: "overdue", value: "overdue", color: "red"},
+    { name: "overdue", value: "overdue", color: "red" },
     { name: "Clear", value: "", color: "gray" },
   ];
 
@@ -51,26 +43,23 @@ const BorrowTable = () => {
       (borrow) => borrow.status === filter
     );
   } else if (filter === "" && searchTerm !== "") {
-    filteredBorrows = memberProfile?.borrow?.filter(
-      (borrow) =>
-        borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    filteredBorrows = memberProfile?.borrow?.filter((borrow) =>
+      borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   } else {
     filteredBorrows = memberProfile?.borrow?.filter(
       (borrow) =>
-        borrow.status === filter && (
-          borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        borrow.status === filter &&
+        borrow.book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
-
 
   const onSelectedFilter = (filter: string) => {
     setFilter(filter);
     if (filter === "") {
       setSearchTerm("");
     }
-  }
-
+  };
 
   if (errorProfile)
     return (
@@ -137,7 +126,6 @@ const BorrowTable = () => {
         <Table variant="striped">
           <Thead>
             <Tr>
-             
               <Th>Book</Th>
               <Th>Borrowed Date</Th>
               <Th>Status</Th>
@@ -147,7 +135,6 @@ const BorrowTable = () => {
           <Tbody>
             {filteredBorrows?.map((borrow) => (
               <Tr key={borrow.id}>
-                
                 <Td>
                   <BookModal book={borrow.book} />
                 </Td>
@@ -156,7 +143,6 @@ const BorrowTable = () => {
                 <Td color={borrow.return_date ? "red.400" : "green.400"}>
                   {borrow.return_date || "Not Canceled"}
                 </Td>
-                
               </Tr>
             ))}
           </Tbody>
@@ -167,5 +153,3 @@ const BorrowTable = () => {
 };
 
 export default BorrowTable;
-
-

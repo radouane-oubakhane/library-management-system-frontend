@@ -9,9 +9,15 @@ interface AddCategoryContext {
 const useAddCategory = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Category, Error, Category, AddCategoryContext>({
-    mutationFn: (category: Category) => {
-      apiClient.post<Category>(`/categories`, category).then((res) => res.data)},
+  return useMutation<Category, Error, FormData, AddCategoryContext>({
+    mutationFn: (category: FormData) => {
+      apiClient.post<FormData>(`/categories`, category,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      }
+      ).then((res) => res.data)},
 
     onMutate: (newCategory: Category) => {
       const previousCategories =

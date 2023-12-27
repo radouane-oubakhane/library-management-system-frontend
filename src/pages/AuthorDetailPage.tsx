@@ -13,6 +13,7 @@ import {
   Skeleton,
   HStack,
   Box,
+  Button,
 } from "@chakra-ui/react";
 import BookGrid from "../components/BookGrid";
 import { ExpandableText } from "../components/ExpandableText";
@@ -23,6 +24,7 @@ import { useState } from "react";
 import SearchInput from "../components/SearchInput";
 import useAuth from "../hooks/auth/useAuth";
 import AdminBookCard from "../components/AdminBookCard";
+import EditAuthorModal from "../components/EditAuthorMadel";
 
 const AuthorDetailPage = () => {
   const { authorId } = useParams<{ authorId: string }>();
@@ -36,7 +38,7 @@ const AuthorDetailPage = () => {
     isLoading: booksIsLoading,
     error: booksError,
   } = useAuthorBooks(authorId!);
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -78,51 +80,58 @@ const AuthorDetailPage = () => {
               borderRadius={20}
               overflow="hidden"
               blur="0px"
-              src="https://bit.ly/dan-abramov"
+              src={`http://127.0.0.1:8000/storage/authors/${author.picture}`}
               alt={`${author?.last_name}, ${author?.first_name} profile picture`}
             />
           </Center>
           {author && <AuthorInfo author={author} />}
         </GridItem>
         <GridItem area="details" paddingX={8} paddingY={14}>
-          <VStack spacing={4} align="stretch">
-            <Heading fontSize="2xl" fontWeight="bold">
-              {author?.first_name} {author?.last_name}
-            </Heading>
+          <HStack spacing={10} justify="space-between" align="start">
+            <VStack spacing={4} align="stretch">
+              <Heading fontSize="2xl" fontWeight="bold">
+                {author?.first_name} {author?.last_name}
+              </Heading>
 
-            <Heading
-              fontSize="xl"
-              fontWeight="bold"
-              as="h1"
-              textAlign="start"
-              paddingTop={8}
-            >
-              biography
-            </Heading>
-            <ExpandableText>{author?.biography}</ExpandableText>
-          </VStack>
+              <Heading
+                fontSize="xl"
+                fontWeight="bold"
+                as="h1"
+                textAlign="start"
+                paddingTop={8}
+              >
+                biography
+              </Heading>
+              <ExpandableText>{author?.biography}</ExpandableText>
+            </VStack>
+            {user?.is_admin && (
+            <Box>
+              <EditAuthorModal author={author} />
+            </Box>
+            )}
+          </HStack>
         </GridItem>
         <GridItem area="divider">
           <Divider mt="30px" />
         </GridItem>
         <GridItem area="cast">
-        <HStack
-        spacing={10}
-        justify="space-between"
-        align="center"
-        px={"20px"}
-      >
-          <Heading as="h2" size="lg">
-            {booksIsLoading ? (
-              <Skeleton height="30px" width="400px" />
-            ) : (
-              `Books by ${author?.first_name} ${author?.last_name}`
-            )}
-          </Heading>
-          <Box flex={1}>
-          <SearchInput setSearchTerm={setSearchTerm} />
-        </Box>
-      </HStack>
+          <HStack
+            spacing={10}
+            justify="space-between"
+            align="center"
+            px={"20px"}
+          >
+            <Heading as="h2" size="lg">
+              {booksIsLoading ? (
+                <Skeleton height="30px" width="400px" />
+              ) : (
+                `Books by ${author?.first_name} ${author?.last_name}`
+              )}
+            </Heading>
+            <Box flex={1}>
+              <SearchInput setSearchTerm={setSearchTerm} />
+            </Box>
+          </HStack>
           <BookGrid
             books={filteredBooks}
             isLoading={booksIsLoading}

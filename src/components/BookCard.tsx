@@ -32,7 +32,7 @@ const BookCard = ({ book }: Props) => {
         boxShadow="md"
         borderRadius={10}
         overflow="hidden"
-        src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421577449/vagabond-vol-37-9781421577449_hr.jpg"
+        src={`http://127.0.0.1:8000/storage/books/${book.picture}`}
         alt={`${book.title} image`}
       />
 

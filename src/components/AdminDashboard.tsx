@@ -150,7 +150,7 @@ const AdminDashboard = () => {
           </StatHelpText>
         </Stat>
       </HStack>
-
+      {filteredInscriptions?.length !== 0 && (
       <HeaderPage
         title="Inscriptions"
         ButtonComponent={Button}
@@ -158,6 +158,7 @@ const AdminDashboard = () => {
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
       />
+      )}
       <SimpleGrid columns={{ lg: 1, xl: 2 }} spacing={10} padding="20px">
         {isLoading &&
           skeletons.map((_, index) => (
@@ -170,6 +171,7 @@ const AdminDashboard = () => {
           <InscriptionCard key={Inscription.id} inscription={Inscription} />
         ))}
       </SimpleGrid>
+   
     </>
   );
 };

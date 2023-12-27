@@ -9,9 +9,14 @@ interface AddAuthorContext {
 const useAddAuthor = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Author, Error, Author, AddAuthorContext>({
-    mutationFn: (author: Author) => apiClient
-                                            .post(`/authors`, author)
+  return useMutation<Author, Error, FormData, AddAuthorContext>({
+    mutationFn: (author: FormData) => apiClient
+                                            .post<FormData>(`/authors`, author,
+                                            {
+                                              headers: {
+                                                'Content-Type': 'multipart/form-data'
+                                              },
+                                            })
                                             .then((res) => res.data),
 
     onMutate: (newAuthor: Author) => {

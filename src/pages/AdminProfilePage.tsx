@@ -1,18 +1,23 @@
-
-import { Box, Heading, Text, Image, SimpleGrid} from '@chakra-ui/react';
-import useAdmineProfile from '../hooks/userProfile/useAdmineProfile';
-import AuthorDetailPageSkeleton from '../components/AuthorDetailPageSkeleton';
-
-
+import {
+  Box,
+  Button,
+  HStack,
+  Heading,
+  Image,
+  Text
+} from "@chakra-ui/react";
+import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
+import EditProfileModal from "../components/EditProfileMadel";
+import HeaderPage from "../components/HeaderPage";
+import useMemberProfile from "../hooks/profile/useMemberProfile";
 
 const AdminProfilePage = () => {
   const {
     data: profile,
     isLoading: authorIsLoading,
     error: authorError,
-  } = useAdmineProfile();
-  
- 
+  } = useMemberProfile();
+
   if (authorIsLoading) return <AuthorDetailPageSkeleton />;
 
   if (authorError)
@@ -21,49 +26,52 @@ const AdminProfilePage = () => {
         {authorError.message}
       </Text>
     );
-  const {
-    
-    first_name,
-    last_name,
-    email,
-    phone,
-    address,
-    date_of_birth,
-    membership_start_date,
-    membership_end_date,
-    picture,
-    dashboardData,
-  } = profile;
 
-  
   return (
-    <Box p={4}>
-      <Heading as="h2" size="xl">
-        User Details
-      </Heading>
-      <Image src={picture} alt={`${first_name} ${last_name}`} borderRadius="full" boxSize="150px" mt={4} />
-      <Text mt={2}>{`${first_name} ${last_name}`}</Text>
-      <Text>Email: {email}</Text>
-      <Text>Phone: {phone}</Text>
-      <Text>Address: {address}</Text>
-      <Text>Date of Birth: {date_of_birth}</Text>
-      <Text>Membership Start Date: {membership_start_date}</Text>
-      <Text>Membership End Date: {membership_end_date}</Text>
-
-      
-
-      <Heading as="h3" size="lg" mt={8}>
-        Dashboard Data
-      </Heading>
-      <SimpleGrid columns={2} spacing={4} mt={2}>
-        {Object.entries(dashboardData).map(([key, value]:any) => (
-          <Box key={key} p={4} borderWidth="1px" borderRadius="lg">
-            <Text fontWeight="bold">{key}</Text>
-            <Text>{value}</Text>
-          </Box>
-        ))}
-      </SimpleGrid>
-    </Box>
+    <>
+      <HeaderPage title="Admin Profile Details" ButtonComponent={Button} />
+      <HStack
+        spacing={10}
+        justify="space-between"
+        align="start"
+        padding={"20px"}
+        borderRadius={10}
+        boxShadow="lg"
+        m="20px"
+      >
+        <Box flex={1}>
+          <Image
+            src={`http://127.0.0.1:8000/storage/members/${profile?.picture}`}
+            alt={`${profile?.first_name} ${profile?.last_name}`}
+            borderRadius="full"
+            boxSize="150px"
+            mb={6}
+          />
+          <Heading size="lg" mb={2}>
+            {profile?.first_name} {profile?.last_name}
+          </Heading>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Email :</Heading>
+            <Text>{profile?.email}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Phone :</Heading>
+            <Text>{profile?.phone}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Address :</Heading>
+            <Text>{profile?.address}</Text>
+          </HStack>
+          <HStack spacing={1} mb={2}>
+            <Heading size="sm">Date of Birth :</Heading>
+            <Text>{profile?.date_of_birth}</Text>
+          </HStack>
+        </Box>
+        <Box>
+          <EditProfileModal profile={profile} />
+        </Box>
+      </HStack>
+    </>
   );
 };
 

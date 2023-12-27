@@ -11,7 +11,14 @@ const useEditCategory = () => {
 
   return useMutation<Category, Error, Category, AddCategoryContext>({
     mutationFn: (category: Category) =>
-      apiClient.put(`/categories/${category.id}`, category).then((res) => res.data),
+      apiClient.put(`/categories/${category.id}`, category,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      )
+      .then((res) => res.data),
 
     onMutate: (newCategory: Category) => {
       const previousCategories =

@@ -2,6 +2,7 @@ import { Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text } from 
 import Category from "../models/Category"
 import useDeleteCategory from "../hooks/category/useDeleteCategory"
 import EditCategoryModal from "./EditCategoryMadel"
+import { DeleteIcon } from "@chakra-ui/icons"
 
 
 interface Props {
@@ -31,7 +32,7 @@ const CategoryCard = ({ category }: Props) => {
 
     <CardFooter>
       <EditCategoryModal category={category} />
-      <Button variant='solid' colorScheme='red'
+      <Button variant='solid' colorScheme='red' leftIcon={<DeleteIcon />}
       onClick={() => mutate(category)}
       >
         Delete

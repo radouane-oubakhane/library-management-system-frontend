@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Member from "../models/Member";
 import useDeleteMember from "../hooks/member/useDeleteMember";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 interface Props {
   member: Member;
@@ -27,7 +28,7 @@ const MemberCard = ({ member }: Props) => {
       <Image
         objectFit="cover"
         maxW={{ base: "100%", sm: "300px" }}
-        src="https://bit.ly/dan-abramov"
+        src={`http://127.0.0.1:8000/storage/members/${member.picture}`}
         alt="Caffe Latte"
       />
 
@@ -66,7 +67,7 @@ const MemberCard = ({ member }: Props) => {
         </CardBody>
 
         <CardFooter>
-          <Button variant="solid" colorScheme="red"
+          <Button variant="solid" colorScheme="red" leftIcon={<DeleteIcon />}
           onClick={() => mutate(member)}
           isLoading={isLoading}
           >
