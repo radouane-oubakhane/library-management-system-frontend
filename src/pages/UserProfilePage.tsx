@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
-import useProfileUser from "../hooks/userProfile/useUserProfile";
+import useProfileUser from "../hooks/profile/useUserProfile";
 
 import BorrowTable from "../components/BorrowTable";
 import ReservationTable from "../components/ReservationTable";
