@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -13,7 +14,6 @@ import {
   ModalOverlay,
   Textarea,
   useDisclosure,
-  Box,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { useForm } from "react-hook-form";
@@ -119,7 +119,6 @@ const AddCategoryModal = () => {
                   lineHeight="short"
                   borderRadius="md"
                   color="white"
-                  
                   _hover={{ bg: "gray.600" }}
                   cursor="pointer"
                   width="100%"
@@ -127,12 +126,12 @@ const AddCategoryModal = () => {
                 >
                   Upload Picture
                   <Input
-                  {...register("picture")}
-                  id="picture"
-                  type="file"
-                  accept="image/*"
-                  hidden
-                />
+                    {...register("picture")}
+                    id="picture"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
                 </Box>
                 {errors.picture && (
                   <FormHelperText color="red">

@@ -1,23 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
-import ErrorPage from "./pages/ErrorPage";
-import AuthorDetailPage from "./pages/AuthorDetailPage";
-import CategoryDetailPage from "./pages/CategoryDetailPage";
-import InscriptionsPage from "./pages/inscriptionsPage";
-import CategoriesPage from "./pages/CategoriesPage";
-import BooksPage from "./pages/BooksPage";
-import AuthorsPage from "./pages/AuthorsPage";
-import MembersPage from "./pages/MembersPage";
-import ReservationsPage from "./pages/ReservationsPage";
-import BorrowsPage from "./pages/BorrowsPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 import PrivateRoutes from "./PrivateRoutes";
+import AuthorDetailPage from "./pages/AuthorDetailPage";
+import AuthorsPage from "./pages/AuthorsPage";
 import BookDetailPage from "./pages/BookDetailPage";
-import UserProfile from "./pages/UserProfilePage";
-import AdminProfilePage from "./pages/AdminProfilePage";
+import BooksPage from "./pages/BooksPage";
+import BorrowsPage from "./pages/BorrowsPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import CategoryDetailPage from "./pages/CategoryDetailPage";
+import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
+import Layout from "./pages/Layout";
+import LoginPage from "./pages/LoginPage";
+import MembersPage from "./pages/MembersPage";
 import ProfilePage from "./pages/ProfilePage";
+import RegisterPage from "./pages/RegisterPage";
+import ReservationsPage from "./pages/ReservationsPage";
+import InscriptionsPage from "./pages/inscriptionsPage";
 
 const router = createBrowserRouter([
   {

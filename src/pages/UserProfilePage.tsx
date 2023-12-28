@@ -1,26 +1,24 @@
 import {
   Box,
-  Heading,
-  Text,
-  Image,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
   Button,
   HStack,
+  Heading,
+  Image,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
 } from "@chakra-ui/react";
 
 import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
-import useProfileUser from "../hooks/profile/useUserProfile";
 
 import BorrowTable from "../components/BorrowTable";
-import ReservationTable from "../components/ReservationTable";
-import { Link } from "react-router-dom";
-import HeaderPage from "../components/HeaderPage";
-import useMemberProfile from "../hooks/profile/useMemberProfile";
 import EditProfileModal from "../components/EditProfileMadel";
+import HeaderPage from "../components/HeaderPage";
+import ReservationTable from "../components/ReservationTable";
+import useMemberProfile from "../hooks/profile/useMemberProfile";
 
 const ProfileUserPage = () => {
   const {
@@ -29,11 +27,6 @@ const ProfileUserPage = () => {
     error: authorError,
   } = useMemberProfile();
 
-  const handleDeleteProfile = () => {
-    // Implement the logic to delete the user profile
-    console.log(`Delete profile for user with ID ${id}`);
-  };
-  const handleUpdateProfile = () => {};
   if (authorIsLoading) return <AuthorDetailPageSkeleton />;
 
   if (authorError)
@@ -42,17 +35,6 @@ const ProfileUserPage = () => {
         {authorError.message}
       </Text>
     );
-  const {
-    id,
-    first_name,
-    last_name,
-    email,
-    phone,
-    address,
-    picture,
-    reservation,
-    borrow,
-  } = profile;
 
   return (
     <>
@@ -114,11 +96,9 @@ const ProfileUserPage = () => {
 
         <TabPanels>
           <TabPanel>
-            
             <ReservationTable />
           </TabPanel>
           <TabPanel>
-           
             <BorrowTable />
           </TabPanel>
         </TabPanels>

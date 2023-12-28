@@ -8,7 +8,7 @@ import {
   Modal,
   ModalBody,
   ModalCloseButton,
-  ModalContent, 
+  ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
@@ -19,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useAddAuthor from "../hooks/author/useAddAuthor";
-import Author from "../models/Author";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 

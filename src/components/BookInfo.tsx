@@ -1,5 +1,4 @@
 import { Box, HStack, Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import getAge from "../services/get-age";
 import Book from "../models/Book";
 
 interface Props {

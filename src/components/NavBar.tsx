@@ -77,9 +77,7 @@ const NavBar = () => {
 
   return (
     <>
-    {(loginLoading || logoutLoading) && (
-        <Skeleton startColor="pink.500" endColor="orange.500" height="4px" />
-      )}
+    
       <Box
       position="fixed"
       top="0"
@@ -87,6 +85,9 @@ const NavBar = () => {
       zIndex="docked"
       bg={formBackground}
     >
+      {(loginLoading || logoutLoading) && (
+        <Skeleton startColor="pink.500" endColor="orange.500" height="4px" />
+      )}
       <HStack justifyContent="space-between" padding="20px">
         <HStack justifyContent="space-between" spacing={10}>
           <Link to="/">

@@ -1,30 +1,29 @@
-import { useParams } from "react-router-dom";
-import useAuthor from "../hooks/author/useAuthor";
-import useAuthorBooks from "../hooks/author/useAuthorBooks";
 import {
+  Box,
   Center,
   Divider,
   Grid,
   GridItem,
+  HStack,
   Heading,
   Image,
-  VStack,
-  Text,
   Skeleton,
-  HStack,
-  Box,
-  Button,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import BookGrid from "../components/BookGrid";
-import { ExpandableText } from "../components/ExpandableText";
-import AuthorInfo from "../components/AuthorInfo";
-import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
-import BookCard from "../components/BookCard";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import AdminBookCard from "../components/AdminBookCard";
+import AuthorDetailPageSkeleton from "../components/AuthorDetailPageSkeleton";
+import AuthorInfo from "../components/AuthorInfo";
+import BookCard from "../components/BookCard";
+import BookGrid from "../components/BookGrid";
+import EditAuthorModal from "../components/EditAuthorMadel";
+import { ExpandableText } from "../components/ExpandableText";
 import SearchInput from "../components/SearchInput";
 import useAuth from "../hooks/auth/useAuth";
-import AdminBookCard from "../components/AdminBookCard";
-import EditAuthorModal from "../components/EditAuthorMadel";
+import useAuthor from "../hooks/author/useAuthor";
+import useAuthorBooks from "../hooks/author/useAuthorBooks";
 
 const AuthorDetailPage = () => {
   const { authorId } = useParams<{ authorId: string }>();
@@ -105,9 +104,9 @@ const AuthorDetailPage = () => {
               <ExpandableText>{author?.biography}</ExpandableText>
             </VStack>
             {user?.is_admin && (
-            <Box>
-              <EditAuthorModal author={author} />
-            </Box>
+              <Box>
+                <EditAuthorModal author={author} />
+              </Box>
             )}
           </HStack>
         </GridItem>

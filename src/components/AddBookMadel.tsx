@@ -1,28 +1,27 @@
 import {
-  useDisclosure,
+  Box,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
-  Textarea,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
-  FormHelperText,
-  Box,
+  Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
-import useAuthors from "../hooks/author/useAuthors";
-import useCategories from "../hooks/category/useCategories";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import useAuthors from "../hooks/author/useAuthors";
 import useAddBook from "../hooks/book/useAddBook";
-import Book from "../models/Book";
+import useCategories from "../hooks/category/useCategories";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
@@ -66,13 +65,9 @@ type FormValues = z.infer<typeof schema>;
 const AddBookModal = () => {
   const {
     data: authors,
-    isLoading: authorsLoading,
-    error: authorsError,
   } = useAuthors();
   const {
     data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError,
   } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
 

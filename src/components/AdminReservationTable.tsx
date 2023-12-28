@@ -22,7 +22,7 @@ import useReservations from "../hooks/reservation/useReservations";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 const AdminReservationTable = () => {
-  const { mutate: deleteReservation, isLoading: isDeleting } =
+  const { mutate: deleteReservation } =
     useDeleteReservation();
 
 

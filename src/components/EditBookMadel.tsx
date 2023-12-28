@@ -10,7 +10,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Textarea, 
+  Textarea,
   ModalFooter,
   Select,
   Box,
@@ -30,41 +30,27 @@ interface Props {
   book: Book;
 }
 
-
 const schema = z.object({
   title: z.optional(z.string()),
-category_id: z.optional(z.string()),
-author_id: z.optional(z.string()),
-isbn: z.optional(z.string()),
-description: z.optional(z.string()),
-stock: z.optional(z.string()),
-publisher: z.optional(z.string()),
-published_at: z.optional(z.string()),
-language: z.optional(z.string()),
-edition: z.optional(z.string()),
+  book_category_id: z.optional(z.string()),
+  author_id: z.optional(z.string()),
+  isbn: z.optional(z.string()),
+  description: z.optional(z.string()),
+  stock: z.optional(z.string()),
+  publisher: z.optional(z.string()),
+  published_at: z.optional(z.string()),
+  language: z.optional(z.string()),
+  edition: z.optional(z.string()),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-
 const EditBookModal = ({ book }: Props) => {
-  const {
-    data: authors,
-    isLoading: authorsLoading,
-    error: authorsError,
-  } = useAuthors();
-  const {
-    data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError,
-  } = useCategories();
+  const { data: authors } = useAuthors();
+  const { data: categories } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const pictureRef = useRef<HTMLInputElement>(null);
-  const { mutate: mutatePicture } = useUpdatePicture(
-    "books",
-    book.id!
-  );
-
+  const { mutate: mutatePicture } = useUpdatePicture("books", book.id!);
 
   const {
     handleSubmit,
@@ -78,11 +64,9 @@ const EditBookModal = ({ book }: Props) => {
   const { mutate } = useEditBook();
 
   const onSubmit = (data: FormValues) => {
-
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== '')
+      Object.entries(data).filter(([_, value]) => value !== "")
     );
-
 
     mutate({
       id: book.id,
@@ -102,7 +86,8 @@ const EditBookModal = ({ book }: Props) => {
 
   return (
     <>
-      <Button leftIcon={<EditIcon />}
+      <Button
+        leftIcon={<EditIcon />}
         variant="solid"
         colorScheme="whatsapp"
         mr={3}
@@ -112,10 +97,7 @@ const EditBookModal = ({ book }: Props) => {
         Edit
       </Button>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Edit Book</ModalHeader>
@@ -138,139 +120,140 @@ const EditBookModal = ({ book }: Props) => {
                 type="text"
                 placeholder={book.isbn}
                 id="isbn"
-               />
+              />
             </FormControl>
 
             <FormControl mt={4}>
-                <FormLabel>Category</FormLabel>
-                <Select
-                  {...register("book_category_id")}
-                  placeholder={book.category?.name}
-                  id="category_id"
-                >
-                  {categories?.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+              <FormLabel>Category</FormLabel>
+              <Select
+                {...register("book_category_id")}
+                placeholder={book.category?.name}
+                id="category_id"
+              >
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
 
-              <FormControl mt={4}>
-                <FormLabel>Author</FormLabel>
-                <Select
-                  {...register("author_id")}
-                  placeholder={book.author_first_name + " " + book.author_first_name}
-                  id="author_id"
-                >
-                  {authors?.map((author) => (
-                    <option key={author.id} value={author.id}>
-                      {author.first_name + " " + author.last_name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Author</FormLabel>
+              <Select
+                {...register("author_id")}
+                placeholder={
+                  book.author_first_name + " " + book.author_first_name
+                }
+                id="author_id"
+              >
+                {authors?.map((author) => (
+                  <option key={author.id} value={author.id}>
+                    {author.first_name + " " + author.last_name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
 
-              <FormControl mt={4}>
-                <FormLabel>Description</FormLabel>
-                <Textarea
-                  {...register("description")}
-                  id="description"
-                  height="100px"
-                  placeholder={book.description}
-                />
-              </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                {...register("description")}
+                id="description"
+                height="100px"
+                placeholder={book.description}
+              />
+            </FormControl>
 
-              <FormControl mt={4}>
-                <FormLabel>Stock</FormLabel>
+            <FormControl mt={4}>
+              <FormLabel>Stock</FormLabel>
+              <Input
+                {...register("stock")}
+                type="number"
+                placeholder={Number(book.stock).toString()}
+                id="stock"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Publisher</FormLabel>
+              <Input
+                {...register("publisher")}
+                type="text"
+                placeholder={book.publisher}
+                id="publisher"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Publisher Date</FormLabel>
+              <Input
+                {...register("published_at")}
+                type="date"
+                placeholder={book.published_at}
+                id="published_at"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Language</FormLabel>
+              <Input
+                {...register("language")}
+                type="text"
+                placeholder={book.language}
+                id="language"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Edition</FormLabel>
+              <Input
+                {...register("edition")}
+                type="text"
+                placeholder={book.edition}
+                id="edition"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Book Cover</FormLabel>
+              <Box
+                as="label"
+                htmlFor="picture"
+                px={4}
+                py={2}
+                lineHeight="short"
+                borderRadius="md"
+                color="white"
+                _hover={{ bg: "gray.600" }}
+                cursor="pointer"
+                width="100%"
+                textAlign="center"
+              >
+                Upload Picture
                 <Input
-                  {...register("stock")}
-                  type="number"
-                  placeholder={Number(book.stock).toString()}
-                  id="stock"
-                />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Publisher</FormLabel>
-                <Input
-                  {...register("publisher")}
-                  type="text"
-                  placeholder={book.publisher}
-                  id="publisher"
-                />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Publisher Date</FormLabel>
-                <Input
-                  {...register("published_at")}
-                  type="date"
-                  placeholder={book.published_at}
-                  id="published_at"
-                />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Language</FormLabel>
-                <Input
-                  {...register("language")}
-                  type="text"
-                  placeholder={book.language}
-                  id="language"
-                />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Edition</FormLabel>
-                <Input
-                  {...register("edition")}
-                  type="text"
-                  placeholder={book.edition}
-                  id="edition"
-                />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Book Cover</FormLabel>
-                <Box
-                  as="label"
-                  htmlFor="picture"
-                  px={4}
-                  py={2}
-                  lineHeight="short"
-                  borderRadius="md"
-                  color="white"
-                  
-                  _hover={{ bg: "gray.600" }}
-                  cursor="pointer"
-                  width="100%"
-                  textAlign="center"
-                >
-                  Upload Picture
-                  <Input
                   ref={pictureRef}
                   id="picture"
                   type="file"
                   accept="image/*"
                   hidden
                 />
-                </Box>
-              </FormControl>
-            </ModalBody>
+              </Box>
+            </FormControl>
+          </ModalBody>
 
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                type="submit"
-                disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              type="submit"
+              disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

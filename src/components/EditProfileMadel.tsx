@@ -63,6 +63,8 @@ const EditProfileModal = ({ profile }: Props) => {
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => value !== '')
     );
+    
+
     mutate({
       id: profile.id,
       ...filteredData,
@@ -163,7 +165,7 @@ const EditProfileModal = ({ profile }: Props) => {
               <FormLabel>Password</FormLabel>
               <Input
                 {...register("password")}
-                type="date"
+                type="password"
                 id="password"
                 placeholder="Enter your password"
               />

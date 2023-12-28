@@ -52,7 +52,7 @@ const EditAuthorModal = ({ author }: Props) => {
     handleSubmit,
     register,
     reset,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });

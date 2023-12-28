@@ -20,7 +20,7 @@ import HeaderPage from "./HeaderPage";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 const ReservationTable = () => {
-  const { mutate: deleteReservation, isLoading: isDeleting } =
+  const { mutate: deleteReservation } =
     useDeleteReservation();
 
 

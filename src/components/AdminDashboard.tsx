@@ -22,7 +22,7 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredInscriptions = searchTerm
-    ? data?.inscriptions.filter(
+    ? data?.inscriptions?.filter(
         (inscription: Inscription) =>
           inscription.first_name
             .toLowerCase()
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.booksCount}
+              {data?.dashboardData?.booksCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of books in the library</StatHelpText>
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.authorsCount}
+              {data?.dashboardData?.authorsCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of authors in the library</StatHelpText>
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.categoriesCount}
+              {data?.dashboardData?.categoriesCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of categories in the library</StatHelpText>
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.membersCount}
+              {data?.dashboardData?.membersCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of members in the library</StatHelpText>
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.reservationsCount}
+              {data?.dashboardData?.reservationsCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of pending reservations in the library</StatHelpText>
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.borrowsCount}
+              {data?.dashboardData?.borrowsCount}
             </Heading>
           </StatNumber>
           <StatHelpText>Number of books borrowed in the library</StatHelpText>
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
           </StatLabel>
           <StatNumber>
             <Heading size="lg" mb={2}>
-              {data?.dashboardData.inscriptionsCount}
+              {data?.dashboardData?.inscriptionsCount}
             </Heading>
           </StatNumber>
           <StatHelpText>

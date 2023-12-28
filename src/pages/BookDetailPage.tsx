@@ -81,7 +81,7 @@ const BookDetailPage = () => {
               borderRadius={20}
               overflow="hidden"
               blur="0px"
-              src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781421577449/vagabond-vol-37-9781421577449_hr.jpg"
+              src={`http://127.0.0.1:8000/storage/books/${book.picture}`}
               alt={`${book?.title} cover`}
             />
           </Center>
@@ -106,9 +106,11 @@ const BookDetailPage = () => {
             </Heading>
             <ExpandableText>{book?.description}</ExpandableText>
           </VStack>
+          {user?.is_admin && (
           <Box>
               <EditBookModal book={book} />
             </Box>
+          )}
         </HStack>
         </GridItem>
         <GridItem area="divider">

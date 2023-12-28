@@ -1,4 +1,4 @@
-a
+
 
 export default interface User {
     id: number;

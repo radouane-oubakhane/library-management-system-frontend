@@ -5,15 +5,21 @@ import InscriptionCategoryCardSkeleton from "../components/InscriptionCategoryCa
 import MemberCard from "../components/MemberCard";
 import HeaderPage from "../components/HeaderPage";
 import { useState } from "react";
+import useAuth from "../hooks/auth/useAuth";
 
 const MembersPage = () => {
     const { data: members, isLoading, error } = useMembers();
     const [searchTerm, setSearchTerm] = useState("");
+    const {user} = useAuth();
 
-    const filteredMembers = searchTerm === ""
+
+
+    let filteredMembers = searchTerm === ""
     ? members
     : members?.filter(member => member.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) || member.last_name?.toLowerCase().includes(searchTerm.toLowerCase()));
 
+
+    filteredMembers = filteredMembers?.filter(member => member.user_id !== user?.id);
     
     if (error)
   return (
